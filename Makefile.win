@@ -1,0 +1,46 @@
+# Project: adeline
+# Makefile created by Dev-C++ 5.11
+
+CPP      = g++.exe -D__DEBUG__
+CC       = gcc.exe -D__DEBUG__
+WINDRES  = windres.exe
+OBJ      = build//Color.o build//Image.o build//Math.o build//Matrix.o build//Utility.o build//Vector.o build//main.o
+LINKOBJ  = build//Color.o build//Image.o build//Math.o build//Matrix.o build//Utility.o build//Vector.o build//main.o
+LIBS     = -L"C:/Program Files (x86)/Dev-Cpp/MinGW64/lib" -L"C:/Program Files (x86)/Dev-Cpp/MinGW64/x86_64-w64-mingw32/lib" -static-libgcc -g3
+INCS     = -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/include" -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/x86_64-w64-mingw32/include" -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/lib/gcc/x86_64-w64-mingw32/4.9.2/include" -I"include/"
+CXXINCS  = -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/include" -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/x86_64-w64-mingw32/include" -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/lib/gcc/x86_64-w64-mingw32/4.9.2/include" -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/lib/gcc/x86_64-w64-mingw32/4.9.2/include/c++" -I"include/"
+BIN      = build/adeline.exe
+CXXFLAGS = $(CXXINCS) -g3 -std=c++11
+CFLAGS   = $(INCS) -g3
+RM       = rm.exe -f
+
+.PHONY: all all-before all-after clean clean-custom
+
+all: all-before $(BIN) all-after
+
+clean: clean-custom
+	${RM} $(OBJ) $(BIN)
+
+$(BIN): $(OBJ)
+	$(CPP) $(LINKOBJ) -o $(BIN) $(LIBS)
+
+build//Color.o: src/Color.cpp
+	$(CPP) -c src/Color.cpp -o build//Color.o $(CXXFLAGS)
+
+build//Image.o: src/Image.cpp
+	$(CPP) -c src/Image.cpp -o build//Image.o $(CXXFLAGS)
+
+build//Math.o: src/Math.cpp
+	$(CPP) -c src/Math.cpp -o build//Math.o $(CXXFLAGS)
+
+build//Matrix.o: src/Matrix.cpp
+	$(CPP) -c src/Matrix.cpp -o build//Matrix.o $(CXXFLAGS)
+
+build//Utility.o: src/Utility.cpp
+	$(CPP) -c src/Utility.cpp -o build//Utility.o $(CXXFLAGS)
+
+build//Vector.o: src/Vector.cpp
+	$(CPP) -c src/Vector.cpp -o build//Vector.o $(CXXFLAGS)
+
+build//main.o: src/main.cpp
+	$(CPP) -c src/main.cpp -o build//main.o $(CXXFLAGS)
