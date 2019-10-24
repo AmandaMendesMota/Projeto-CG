@@ -31,14 +31,17 @@
 
 AURORA_NAMESPACE_BEGIN
 
-double clamp(double x, double a, double b) {
+float clamp(float x, float a, float b) {
     return std::fmax(a, std::fmin(b, x));
 }
-double degrees(double x) {
-    return x * 180.0 * AURORA_INV_PI;
+float saturate(float x) {
+    return clamp(x, 0, 1.0f);
 }
-double radians(double x) {
-    return x * AURORA_PI / 180.0;
+float degrees(float x) {
+    return x * 180.0f * AURORA_INV_PI;
+}
+float radians(float x) {
+    return x * AURORA_PI / 180.0f;
 }
 
 AURORA_NAMESPACE_END

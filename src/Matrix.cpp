@@ -33,25 +33,25 @@
 AURORA_NAMESPACE_BEGIN
 
 Matrix2::Matrix2() {
-    m[0][0] = 0; m[0][1] = 0;
-    m[1][0] = 0; m[1][1] = 0;
+    m[0][0] = 0.0f; m[0][1] = 0.0f;
+    m[1][0] = 0.0f; m[1][1] = 0.0f;
 }
 Matrix2::Matrix2(const Matrix2 & matrix2) {
     m[0][0] = matrix2[0][0]; m[0][1] = matrix2[0][1];
     m[1][0] = matrix2[1][0]; m[1][1] = matrix2[1][1];
 }
 Matrix2::Matrix2(
-    double m00, double m01,
-    double m10, double m11) {
+    float m00, float m01,
+    float m10, float m11) {
     m[0][0] = m00; m[0][1] = m01;
     m[1][0] = m10; m[1][1] = m11;
 }
 Matrix2::~Matrix2() {}
 
-double * Matrix2::operator [](size_t i) {
+float * Matrix2::operator [](size_t i) {
     return m[i];
 }
-const double * Matrix2::operator [](size_t i) const {
+const float * Matrix2::operator [](size_t i) const {
     return m[i];
 }
 Matrix2 Matrix2::operator +() const {
@@ -71,16 +71,16 @@ Matrix2 Matrix2::operator -(const Matrix2 & rhs) const {
 Matrix2 Matrix2::operator *(const Matrix2 & rhs) const {
     return Matrix2(*this) *= rhs;
 }
-Matrix2 Matrix2::operator *(double rhs) const {
+Matrix2 Matrix2::operator *(float rhs) const {
     return Matrix2(*this) *= rhs;
 }
-Matrix2 operator *(double lhs, const Matrix2 & rhs) {
+Matrix2 operator *(float lhs, const Matrix2 & rhs) {
     return rhs * lhs;
 }
 Matrix2 Matrix2::operator /(const Matrix2 & rhs) const {
     return Matrix2(*this) /= rhs;
 }
-Matrix2 Matrix2::operator /(double rhs) const {
+Matrix2 Matrix2::operator /(float rhs) const {
     return Matrix2(*this) /= rhs;
 }
 Matrix2 & Matrix2::operator +=(const Matrix2 & rhs) {
@@ -96,7 +96,7 @@ Matrix2 & Matrix2::operator -=(const Matrix2 & rhs) {
     return *this;
 }
 Matrix2 & Matrix2::operator *=(const Matrix2 & rhs) {
-    double t0 = m[0][0], t1 = m[0][1];
+    float t0 = m[0][0], t1 = m[0][1];
 
     m[0][0] = t0 * rhs[0][0] + t1 * rhs[1][0];
     m[0][1] = t0 * rhs[0][1] + t1 * rhs[1][1];
@@ -108,7 +108,7 @@ Matrix2 & Matrix2::operator *=(const Matrix2 & rhs) {
 
     return *this;
 }
-Matrix2 & Matrix2::operator *=(double rhs) {
+Matrix2 & Matrix2::operator *=(float rhs) {
     m[0][0] *= rhs; m[0][1] *= rhs;
     m[1][0] *= rhs; m[1][1] *= rhs;
 
@@ -117,7 +117,7 @@ Matrix2 & Matrix2::operator *=(double rhs) {
 Matrix2 & Matrix2::operator /=(const Matrix2 & rhs) {
     return *this *= rhs.inverse();
 }
-Matrix2 & Matrix2::operator /=(double rhs) {
+Matrix2 & Matrix2::operator /=(float rhs) {
     m[0][0] /= rhs; m[0][1] /= rhs;
     m[1][0] /= rhs; m[1][1] /= rhs;
 
@@ -136,20 +136,20 @@ std::ostream & operator <<(std::ostream & lhs, const Matrix2 & rhs) {
         << rhs[1][0] << ' ' << rhs[1][1] << ']';
 }
 
-double Matrix2::determinant() const {
+float Matrix2::determinant() const {
     return m[0][0] * m[1][1] - m[0][1] * m[1][0];
 }
-double Matrix2::trace() const {
+float Matrix2::trace() const {
     return m[0][0] + m[1][1];
 }
-double Matrix2::minor(size_t i, size_t j) const {
+float Matrix2::minor(size_t i, size_t j) const {
     size_t i0 = i < 1 ? 1 : 0;
     size_t j0 = j < 1 ? 1 : 0;
 
     return m[i0][j0];
 }
 Matrix2 & Matrix2::transpose() {
-    double t01 = m[0][1];
+    float t01 = m[0][1];
 
     m[0][1] = m[1][0];
     m[1][0] = t01;
@@ -166,9 +166,9 @@ Matrix2 Matrix2::adjugate() const {
 }
 
 Matrix3::Matrix3() {
-    m[0][0] = 0; m[0][1] = 0; m[0][2] = 0;
-    m[1][0] = 0; m[1][1] = 0; m[1][2] = 0;
-    m[2][0] = 0; m[2][1] = 0; m[2][2] = 0;
+    m[0][0] = 0.0f; m[0][1] = 0.0f; m[0][2] = 0.0f;
+    m[1][0] = 0.0f; m[1][1] = 0.0f; m[1][2] = 0.0f;
+    m[2][0] = 0.0f; m[2][1] = 0.0f; m[2][2] = 0.0f;
 }
 Matrix3::Matrix3(const Matrix3 & matrix3) {
     m[0][0] = matrix3[0][0]; m[0][1] = matrix3[0][1]; m[0][2] = matrix3[0][2];
@@ -176,19 +176,19 @@ Matrix3::Matrix3(const Matrix3 & matrix3) {
     m[2][0] = matrix3[2][0]; m[2][1] = matrix3[2][1]; m[2][2] = matrix3[2][2];
 }
 Matrix3::Matrix3(
-    double m00, double m01, double m02,
-    double m10, double m11, double m12,
-    double m20, double m21, double m22) {
+    float m00, float m01, float m02,
+    float m10, float m11, float m12,
+    float m20, float m21, float m22) {
     m[0][0] = m00; m[0][1] = m01; m[0][2] = m02;
     m[1][0] = m10; m[1][1] = m11; m[1][2] = m12;
     m[2][0] = m20; m[2][1] = m21; m[2][2] = m22;
 }
 Matrix3::~Matrix3() {}
 
-double * Matrix3::operator [](size_t i) {
+float * Matrix3::operator [](size_t i) {
     return m[i];
 }
-const double * Matrix3::operator [](size_t i) const {
+const float * Matrix3::operator [](size_t i) const {
     return m[i];
 }
 Matrix3 Matrix3::operator +() const {
@@ -209,16 +209,16 @@ Matrix3 Matrix3::operator -(const Matrix3 & rhs) const {
 Matrix3 Matrix3::operator *(const Matrix3 & rhs) const {
     return Matrix3(*this) *= rhs;
 }
-Matrix3 Matrix3::operator *(double rhs) const {
+Matrix3 Matrix3::operator *(float rhs) const {
     return Matrix3(*this) *= rhs;
 }
-Matrix3 operator *(double lhs, const Matrix3 & rhs) {
+Matrix3 operator *(float lhs, const Matrix3 & rhs) {
     return rhs * lhs;
 }
 Matrix3 Matrix3::operator /(const Matrix3 & rhs) const {
     return Matrix3(*this) /= rhs;
 }
-Matrix3 Matrix3::operator /(double rhs) const {
+Matrix3 Matrix3::operator /(float rhs) const {
     return Matrix3(*this) /= rhs;
 }
 Matrix3 & Matrix3::operator +=(const Matrix3 & rhs) {
@@ -236,7 +236,7 @@ Matrix3 & Matrix3::operator -=(const Matrix3 & rhs) {
     return *this;
 }
 Matrix3 & Matrix3::operator *=(const Matrix3 & rhs) {
-    double t0 = m[0][0], t1 = m[0][1], t2 = m[0][2];
+    float t0 = m[0][0], t1 = m[0][1], t2 = m[0][2];
 
     m[0][0] = t0 * rhs[0][0] + t1 * rhs[1][0] + t2 * rhs[2][0];
     m[0][1] = t0 * rhs[0][1] + t1 * rhs[1][1] + t2 * rhs[2][1];
@@ -256,7 +256,7 @@ Matrix3 & Matrix3::operator *=(const Matrix3 & rhs) {
 
     return *this;
 }
-Matrix3 & Matrix3::operator *=(double rhs) {
+Matrix3 & Matrix3::operator *=(float rhs) {
     m[0][0] *= rhs; m[0][1] *= rhs; m[0][2] *= rhs;
     m[1][0] *= rhs; m[1][1] *= rhs; m[1][2] *= rhs;
     m[2][0] *= rhs; m[2][1] *= rhs; m[2][2] *= rhs;
@@ -266,7 +266,7 @@ Matrix3 & Matrix3::operator *=(double rhs) {
 Matrix3 & Matrix3::operator /=(const Matrix3 & rhs) {
     return *this *= rhs.inverse();
 }
-Matrix3 & Matrix3::operator /=(double rhs) {
+Matrix3 & Matrix3::operator /=(float rhs) {
     m[0][0] /= rhs; m[0][1] /= rhs; m[0][2] /= rhs;
     m[1][0] /= rhs; m[1][1] /= rhs; m[1][2] /= rhs;
     m[2][0] /= rhs; m[2][1] /= rhs; m[2][2] /= rhs;
@@ -289,113 +289,113 @@ std::ostream & operator <<(std::ostream & lhs, const Matrix3 & rhs) {
 }
 
 Matrix3 & Matrix3::setIdentity() {
-    m[0][0] = 1.0;
-    m[0][1] = 0;
-    m[0][2] = 0;
+    m[0][0] = 1.0f;
+    m[0][1] = 0.0f;
+    m[0][2] = 0.0f;
 
-    m[1][0] = 0;
-    m[1][1] = 1.0;
-    m[1][2] = 0;
+    m[1][0] = 0.0f;
+    m[1][1] = 1.0f;
+    m[1][2] = 0.0f;
 
-    m[2][0] = 0;
-    m[2][1] = 0;
-    m[2][2] = 1.0;
+    m[2][0] = 0.0f;
+    m[2][1] = 0.0f;
+    m[2][2] = 1.0f;
 
     return *this;
 }
 Matrix3 & Matrix3::setTranslation(const Vector2 & translation) {
-    m[0][0] = 1.0;
-    m[0][1] = 0;
-    m[0][2] = 0;
+    m[0][0] = 1.0f;
+    m[0][1] = 0.0f;
+    m[0][2] = 0.0f;
 
-    m[1][0] = 0;
-    m[1][1] = 1.0;
-    m[1][2] = 0;
+    m[1][0] = 0.0f;
+    m[1][1] = 1.0f;
+    m[1][2] = 0.0f;
 
     m[2][0] = translation.x;
     m[2][1] = translation.y;
-    m[2][2] = 1.0;
+    m[2][2] = 1.0f;
 
     return *this;
 }
-Matrix3 & Matrix3::setRotation(double rotation) {
-    double c = std::cos(rotation);
-    double s = std::sin(rotation);
+Matrix3 & Matrix3::setRotation(float rotation) {
+    float c = std::cos(rotation);
+    float s = std::sin(rotation);
 
     m[0][0] = c;
     m[0][1] = s;
-    m[0][2] = 0;
+    m[0][2] = 0.0f;
 
     m[1][0] = -s;
     m[1][1] = c;
-    m[1][2] = 0;
+    m[1][2] = 0.0f;
 
-    m[2][0] = 0;
-    m[2][1] = 0;
-    m[2][2] = 1.0;
+    m[2][0] = 0.0f;
+    m[2][1] = 0.0f;
+    m[2][2] = 1.0f;
 
     return *this;
 }
 Matrix3 & Matrix3::setScaling(const Vector2 & scaling) {
     m[0][0] = scaling.x;
-    m[0][1] = 0;
-    m[0][2] = 0;
+    m[0][1] = 0.0f;
+    m[0][2] = 0.0f;
 
-    m[1][0] = 0;
+    m[1][0] = 0.0f;
     m[1][1] = scaling.y;
-    m[1][2] = 0;
+    m[1][2] = 0.0f;
 
-    m[2][0] = 0;
-    m[2][1] = 0;
-    m[2][2] = 1.0;
+    m[2][0] = 0.0f;
+    m[2][1] = 0.0f;
+    m[2][2] = 1.0f;
 
     return *this;
 }
 Matrix3 & Matrix3::setShearing(const Vector2 & shearing) {
-    m[0][0] = 1.0;
+    m[0][0] = 1.0f;
     m[0][1] = shearing.y;
-    m[0][2] = 0;
+    m[0][2] = 0.0f;
 
     m[1][0] = shearing.x;
-    m[1][1] = 1.0;
-    m[1][2] = 0;
+    m[1][1] = 1.0f;
+    m[1][2] = 0.0f;
 
-    m[2][0] = 0;
-    m[2][1] = 0;
-    m[2][2] = 1.0;
+    m[2][0] = 0.0f;
+    m[2][1] = 0.0f;
+    m[2][2] = 1.0f;
 
     return *this;
 }
 Matrix3 & Matrix3::setTransformation(
-    const Vector2 & translation, double rotation,
+    const Vector2 & translation, float rotation,
     const Vector2 & scaling, const Vector2 & shearing) {
-    double c = std::cos(rotation);
-    double s = std::sin(rotation);
+    float c = std::cos(rotation);
+    float s = std::sin(rotation);
 
     m[0][0] = (c - s * shearing.x) * scaling.x;
     m[0][1] = (s + c * shearing.x) * scaling.x;
-    m[0][2] = 0;
+    m[0][2] = 0.0f;
 
     m[1][0] = (c * shearing.y - s) * scaling.y;
     m[1][1] = (c + s * shearing.y) * scaling.y;
-    m[1][2] = 0;
+    m[1][2] = 0.0f;
 
     m[2][0] = translation.x;
     m[2][1] = translation.y;
-    m[2][2] = 1.0;
+    m[2][2] = 1.0f;
 
     return *this;
 }
 
-double Matrix3::determinant() const {
+float Matrix3::determinant() const {
     return m[0][0] * (m[1][1] * m[2][2] - m[1][2] * m[2][1])
         + m[0][1] * (m[1][2] * m[2][0] - m[1][0] * m[2][2])
         + m[0][2] * (m[1][0] * m[2][1] - m[1][1] * m[2][0]);
 }
-double Matrix3::trace() const {
+float Matrix3::trace() const {
     return m[0][0] + m[1][1] + m[2][2];
 }
-double Matrix3::minor(size_t i, size_t j) const {
+float Matrix3::minor(size_t i, size_t j) const {
     size_t i0 = i < 1 ? 1 : 0;
     size_t i1 = i < 2 ? 2 : 1;
 
@@ -424,10 +424,10 @@ Matrix3 Matrix3::adjugate() const {
 }
 
 Matrix4::Matrix4() {
-    m[0][0] = 0; m[0][1] = 0; m[0][2] = 0; m[0][3] = 0;
-    m[1][0] = 0; m[1][1] = 0; m[1][2] = 0; m[1][3] = 0;
-    m[2][0] = 0; m[2][1] = 0; m[2][2] = 0; m[2][3] = 0;
-    m[3][0] = 0; m[3][1] = 0; m[3][2] = 0; m[3][3] = 0;
+    m[0][0] = 0.0f; m[0][1] = 0.0f; m[0][2] = 0.0f; m[0][3] = 0.0f;
+    m[1][0] = 0.0f; m[1][1] = 0.0f; m[1][2] = 0.0f; m[1][3] = 0.0f;
+    m[2][0] = 0.0f; m[2][1] = 0.0f; m[2][2] = 0.0f; m[2][3] = 0.0f;
+    m[3][0] = 0.0f; m[3][1] = 0.0f; m[3][2] = 0.0f; m[3][3] = 0.0f;
 }
 Matrix4::Matrix4(const Matrix4 & matrix4) {
     m[0][0] = matrix4[0][0]; m[0][1] = matrix4[0][1]; m[0][2] = matrix4[0][2]; m[0][3] = matrix4[0][3];
@@ -436,10 +436,10 @@ Matrix4::Matrix4(const Matrix4 & matrix4) {
     m[3][0] = matrix4[3][0]; m[3][1] = matrix4[3][1]; m[3][2] = matrix4[3][2]; m[3][3] = matrix4[3][3];
 }
 Matrix4::Matrix4(
-    double m00, double m01, double m02, double m03,
-    double m10, double m11, double m12, double m13,
-    double m20, double m21, double m22, double m23,
-    double m30, double m31, double m32, double m33) {
+    float m00, float m01, float m02, float m03,
+    float m10, float m11, float m12, float m13,
+    float m20, float m21, float m22, float m23,
+    float m30, float m31, float m32, float m33) {
     m[0][0] = m00; m[0][1] = m01; m[0][2] = m02; m[0][3] = m03;
     m[1][0] = m10; m[1][1] = m11; m[1][2] = m12; m[1][3] = m13;
     m[2][0] = m20; m[2][1] = m21; m[2][2] = m22; m[2][3] = m23;
@@ -447,10 +447,10 @@ Matrix4::Matrix4(
 }
 Matrix4::~Matrix4() {}
 
-double * Matrix4::operator [](size_t i) {
+float * Matrix4::operator [](size_t i) {
     return m[i];
 }
-const double * Matrix4::operator [](size_t i) const {
+const float * Matrix4::operator [](size_t i) const {
     return m[i];
 }
 Matrix4 Matrix4::operator +() const {
@@ -472,16 +472,16 @@ Matrix4 Matrix4::operator -(const Matrix4 & rhs) const {
 Matrix4 Matrix4::operator *(const Matrix4 & rhs) const {
     return Matrix4(*this) *= rhs;
 }
-Matrix4 Matrix4::operator *(double rhs) const {
+Matrix4 Matrix4::operator *(float rhs) const {
     return Matrix4(*this) *= rhs;
 }
-Matrix4 operator *(double lhs, const Matrix4 & rhs) {
+Matrix4 operator *(float lhs, const Matrix4 & rhs) {
     return rhs * lhs;
 }
 Matrix4 Matrix4::operator /(const Matrix4 & rhs) const {
     return Matrix4(*this) /= rhs;
 }
-Matrix4 Matrix4::operator /(double rhs) const {
+Matrix4 Matrix4::operator /(float rhs) const {
     return Matrix4(*this) /= rhs;
 }
 Matrix4 & Matrix4::operator +=(const Matrix4 & rhs) {
@@ -501,7 +501,7 @@ Matrix4 & Matrix4::operator -=(const Matrix4 & rhs) {
     return *this;
 }
 Matrix4 & Matrix4::operator *=(const Matrix4 & rhs) {
-    double t0 = m[0][0], t1 = m[0][1], t2 = m[0][2], t3 = m[0][3];
+    float t0 = m[0][0], t1 = m[0][1], t2 = m[0][2], t3 = m[0][3];
 
     m[0][0] = t0 * rhs[0][0] + t1 * rhs[1][0] + t2 * rhs[2][0] + t3 * rhs[3][0];
     m[0][1] = t0 * rhs[0][1] + t1 * rhs[1][1] + t2 * rhs[2][1] + t3 * rhs[3][1];
@@ -531,7 +531,7 @@ Matrix4 & Matrix4::operator *=(const Matrix4 & rhs) {
 
     return *this;
 }
-Matrix4 & Matrix4::operator *=(double rhs) {
+Matrix4 & Matrix4::operator *=(float rhs) {
     m[0][0] *= rhs; m[0][1] *= rhs; m[0][2] *= rhs; m[0][3] *= rhs;
     m[1][0] *= rhs; m[1][1] *= rhs; m[1][2] *= rhs; m[1][3] *= rhs;
     m[2][0] *= rhs; m[2][1] *= rhs; m[2][2] *= rhs; m[2][3] *= rhs;
@@ -542,7 +542,7 @@ Matrix4 & Matrix4::operator *=(double rhs) {
 Matrix4 & Matrix4::operator /=(const Matrix4 & rhs) {
     return *this *= rhs.inverse();
 }
-Matrix4 & Matrix4::operator /=(double rhs) {
+Matrix4 & Matrix4::operator /=(float rhs) {
     m[0][0] /= rhs; m[0][1] /= rhs; m[0][2] /= rhs; m[0][3] /= rhs;
     m[1][0] /= rhs; m[1][1] /= rhs; m[1][2] /= rhs; m[1][3] /= rhs;
     m[2][0] /= rhs; m[2][1] /= rhs; m[2][2] /= rhs; m[2][3] /= rhs;
@@ -568,181 +568,181 @@ std::ostream & operator <<(std::ostream & lhs, const Matrix4 & rhs) {
 }
 
 Matrix4 & Matrix4::setIdentity() {
-    m[0][0] = 1.0;
-    m[0][1] = 0;
-    m[0][2] = 0;
-    m[0][3] = 0;
+    m[0][0] = 1.0f;
+    m[0][1] = 0.0f;
+    m[0][2] = 0.0f;
+    m[0][3] = 0.0f;
 
-    m[1][0] = 0;
-    m[1][1] = 1.0;
-    m[1][2] = 0;
-    m[1][3] = 0;
+    m[1][0] = 0.0f;
+    m[1][1] = 1.0f;
+    m[1][2] = 0.0f;
+    m[1][3] = 0.0f;
 
-    m[2][0] = 0;
-    m[2][1] = 0;
-    m[2][2] = 1.0;
-    m[2][3] = 0;
+    m[2][0] = 0.0f;
+    m[2][1] = 0.0f;
+    m[2][2] = 1.0f;
+    m[2][3] = 0.0f;
 
-    m[3][0] = 0;
-    m[3][1] = 0;
-    m[3][2] = 0;
-    m[3][3] = 1.0;
+    m[3][0] = 0.0f;
+    m[3][1] = 0.0f;
+    m[3][2] = 0.0f;
+    m[3][3] = 1.0f;
 
     return *this;
 }
 Matrix4 & Matrix4::setTranslation(const Vector3 & translation) {
-    m[0][0] = 1.0;
-    m[0][1] = 0;
-    m[0][2] = 0;
-    m[0][3] = 0;
+    m[0][0] = 1.0f;
+    m[0][1] = 0.0f;
+    m[0][2] = 0.0f;
+    m[0][3] = 0.0f;
 
-    m[1][0] = 0;
-    m[1][1] = 1.0;
-    m[1][2] = 0;
-    m[1][3] = 0;
+    m[1][0] = 0.0f;
+    m[1][1] = 1.0f;
+    m[1][2] = 0.0f;
+    m[1][3] = 0.0f;
 
-    m[2][0] = 0;
-    m[2][1] = 0;
-    m[2][2] = 1.0;
-    m[2][3] = 0;
+    m[2][0] = 0.0f;
+    m[2][1] = 0.0f;
+    m[2][2] = 1.0f;
+    m[2][3] = 0.0f;
 
     m[3][0] = translation.x;
     m[3][1] = translation.y;
     m[3][2] = translation.z;
-    m[3][3] = 1.0;
+    m[3][3] = 1.0f;
 
     return *this;
 }
 Matrix4 & Matrix4::setRotation(const Vector3 & rotation) {
-    double cx = std::cos(rotation.x);
-    double cy = std::cos(rotation.y);
-    double cz = std::cos(rotation.z);
+    float cx = std::cos(rotation.x);
+    float cy = std::cos(rotation.y);
+    float cz = std::cos(rotation.z);
 
-    double sx = std::sin(rotation.x);
-    double sy = std::sin(rotation.y);
-    double sz = std::sin(rotation.z);
+    float sx = std::sin(rotation.x);
+    float sy = std::sin(rotation.y);
+    float sz = std::sin(rotation.z);
 
     m[0][0] = cy * cz;
     m[0][1] = cy * sz;
     m[0][2] = -sy;
-    m[0][3] = 0;
+    m[0][3] = 0.0f;
 
     m[1][0] = cz * sx * sy - cx * sz;
     m[1][1] = cx * cz + sx * sy * sz;
     m[1][2] = cy * sx;
-    m[1][3] = 0;
+    m[1][3] = 0.0f;
 
     m[2][0] = cx * cz * sy + sx * sz;
     m[2][1] = cx * sy * sz - cz * sx;
     m[2][2] = cx * cy;
-    m[2][3] = 0;
+    m[2][3] = 0.0f;
 
-    m[3][0] = 0;
-    m[3][1] = 0;
-    m[3][2] = 0;
-    m[3][3] = 1.0;
+    m[3][0] = 0.0f;
+    m[3][1] = 0.0f;
+    m[3][2] = 0.0f;
+    m[3][3] = 1.0f;
 
     return *this;
 }
 Matrix4 & Matrix4::setScaling(const Vector3 & scaling) {
     m[0][0] = scaling.x;
-    m[0][1] = 0;
-    m[0][2] = 0;
-    m[0][3] = 0;
+    m[0][1] = 0.0f;
+    m[0][2] = 0.0f;
+    m[0][3] = 0.0f;
 
-    m[1][0] = 0;
+    m[1][0] = 0.0f;
     m[1][1] = scaling.y;
-    m[1][2] = 0;
-    m[1][3] = 0;
+    m[1][2] = 0.0f;
+    m[1][3] = 0.0f;
 
-    m[2][0] = 0;
-    m[2][1] = 0;
+    m[2][0] = 0.0f;
+    m[2][1] = 0.0f;
     m[2][2] = scaling.z;
-    m[2][3] = 0;
+    m[2][3] = 0.0f;
 
-    m[3][0] = 0;
-    m[3][1] = 0;
-    m[3][2] = 0;
-    m[3][3] = 1.0;
+    m[3][0] = 0.0f;
+    m[3][1] = 0.0f;
+    m[3][2] = 0.0f;
+    m[3][3] = 1.0f;
 
     return *this;
 }
 Matrix4 & Matrix4::setShearing(const Vector3 & shearing) {
-    m[0][0] = 1.0;
-    m[0][1] = 0;
-    m[0][2] = 0;
-    m[0][3] = 0;
+    m[0][0] = 1.0f;
+    m[0][1] = 0.0f;
+    m[0][2] = 0.0f;
+    m[0][3] = 0.0f;
 
     m[1][0] = shearing.x;
-    m[1][1] = 1.0;
-    m[1][2] = 0;
-    m[1][3] = 0;
+    m[1][1] = 1.0f;
+    m[1][2] = 0.0f;
+    m[1][3] = 0.0f;
 
     m[2][0] = shearing.y;
     m[2][1] = shearing.z;
-    m[2][2] = 1.0;
-    m[2][3] = 0;
+    m[2][2] = 1.0f;
+    m[2][3] = 0.0f;
 
-    m[3][0] = 0;
-    m[3][1] = 0;
-    m[3][2] = 0;
-    m[3][3] = 1.0;
+    m[3][0] = 0.0f;
+    m[3][1] = 0.0f;
+    m[3][2] = 0.0f;
+    m[3][3] = 1.0f;
 
     return *this;
 }
 Matrix4 & Matrix4::setTransformation(
     const Vector3 & translation, const Vector3 & rotation,
     const Vector3 & scaling, const Vector3 & shearing) {
-    double cx = std::cos(rotation.x);
-    double cy = std::cos(rotation.y);
-    double cz = std::cos(rotation.z);
+    float cx = std::cos(rotation.x);
+    float cy = std::cos(rotation.y);
+    float cz = std::cos(rotation.z);
 
-    double sx = std::sin(rotation.x);
-    double sy = std::sin(rotation.y);
-    double sz = std::sin(rotation.z);
+    float sx = std::sin(rotation.x);
+    float sy = std::sin(rotation.y);
+    float sz = std::sin(rotation.z);
 
     m[0][0] = cy * cz * scaling.x;
     m[0][1] = cy * sz * scaling.x;
     m[0][2] = -sy * scaling.x;
-    m[0][3] = 0;
+    m[0][3] = 0.0f;
 
     m[1][0] = (cz * sx * sy - cx * sz + cy * cz * shearing.x) * scaling.y;
     m[1][1] = (cx * cz + sx * sy * sz + cy * sz * shearing.x) * scaling.y;
     m[1][2] = (cy * sx - sy * shearing.x) * scaling.y;
-    m[1][3] = 0;
+    m[1][3] = 0.0f;
 
-    double t0 = cz * sx * sy - cx * sz;
-    double t1 = cx * cz * sy + sx * sz;
-    double t2 = cx * cz + sx * sy * sz;
-    double t3 = cx * sy * sz - cz * sx;
+    float t0 = cz * sx * sy - cx * sz;
+    float t1 = cx * cz * sy + sx * sz;
+    float t2 = cx * cz + sx * sy * sz;
+    float t3 = cx * sy * sz - cz * sx;
 
     m[2][0] = (cy * cz * shearing.y + t0 * shearing.z + t1) * scaling.z;
     m[2][1] = (cy * sz * shearing.y + t2 * shearing.z + t3) * scaling.z;
     m[2][2] = (cx * cy - sy * shearing.y + cy * sx * shearing.z) * scaling.z;
-    m[2][3] = 0;
+    m[2][3] = 0.0f;
 
     m[3][0] = translation.x;
     m[3][1] = translation.y;
     m[3][2] = translation.z;
-    m[3][3] = 1.0;
+    m[3][3] = 1.0f;
 
     return *this;
 }
 
-double Matrix4::determinant() const {
-    double d = 0;
+float Matrix4::determinant() const {
+    float d = 0.0f;
 
-    if (m[0][0] != 0) d += m[0][0] * minor(0, 0);
-    if (m[0][1] != 0) d -= m[0][1] * minor(0, 1);
-    if (m[0][2] != 0) d += m[0][2] * minor(0, 2);
-    if (m[0][3] != 0) d -= m[0][3] * minor(0, 3);
+    if (m[0][0] != 0.0f) d += m[0][0] * minor(0, 0);
+    if (m[0][1] != 0.0f) d -= m[0][1] * minor(0, 1);
+    if (m[0][2] != 0.0f) d += m[0][2] * minor(0, 2);
+    if (m[0][3] != 0.0f) d -= m[0][3] * minor(0, 3);
 
     return d;
 }
-double Matrix4::trace() const {
+float Matrix4::trace() const {
     return m[0][0] + m[1][1] + m[2][2] + m[3][3];
 }
-double Matrix4::minor(size_t i, size_t j) const {
+float Matrix4::minor(size_t i, size_t j) const {
     size_t i0 = i < 1 ? 1 : 0;
     size_t i1 = i < 2 ? 2 : 1;
     size_t i2 = i < 3 ? 3 : 2;

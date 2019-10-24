@@ -1,7 +1,8 @@
-# Graphical Computing class project
+# Rebecca
+A simple educational ray tracing.
 
-### IDE
-Dev-C++ v5.11 [(click here to download)](https://sourceforge.net/projects/orwelldevcpp/files/latest/download)
+Copyright and License
+---------------------
+Copyright &copy; 2019, Danilo Peixoto. All rights reserved.
 
-### References
-Based on [Coraline from Danilo Peixoto](https://github.com/danilopeixoto/coraline)
+Project developed under the [BSD-3-Clause license](LICENSE).

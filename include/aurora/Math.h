@@ -32,22 +32,24 @@
 #include <aurora/Global.h>
 
 // Constantes numéricas
-#define AURORA_E 2.71828182845904523536
-#define AURORA_PI 3.14159265358979323846
-#define AURORA_INV_PI 0.31830988618379067154
-#define AURORA_SQRT_2 1.41421356237309504880
-#define AURORA_EPSILON 2.2204460492503131e-016
-#define AURORA_INFINITY 1.7976931348623158e+308
-#define AURORA_THRESHOLD 1.0000000000000000e-006
+#define AURORA_E         2.71828183f
+#define AURORA_PI        3.14159265f
+#define AURORA_INV_PI    0.31830989f
+#define AURORA_SQRT_2    1.41421356f
+#define AURORA_EPSILON   1.17549435e-38f
+#define AURORA_INFINITY  3.40282347e+38f
+#define AURORA_THRESHOLD 1.00000000e-06f
 
 AURORA_NAMESPACE_BEGIN // Início do "namespace" da biblioteca
 
 // Retorna valor delimitado por mínimo e máximo
-double clamp(double x, double a, double b);
+float clamp(float x, float a, float b);
+// Retorna valor delimitado no intervalo [0, 1]
+float saturate(float x);
 // Converte ângulo de radiano para grau
-double degrees(double x);
+float degrees(float x);
 // Converte ângulo de grau para radiano
-double radians(double x);
+float radians(float x);
 
 // Fim de "namespace" da biblioteca
 AURORA_NAMESPACE_END

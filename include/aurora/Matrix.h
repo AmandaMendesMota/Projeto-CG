@@ -44,7 +44,7 @@ class Vector3;
 class Matrix2 {
 private:
     // Elementos da matriz
-    double m[2][2];
+    float m[2][2];
 
 public:
     // Construtor padrão (matriz zero)
@@ -53,15 +53,15 @@ public:
     Matrix2(const Matrix2 & matrix2);
     // Construtor para valores iniciais
     Matrix2(
-        double m00, double m01,
-        double m10, double m11);
+        float m00, float m01,
+        float m10, float m11);
     // Destrutor padrão
     ~Matrix2();
 
     // Sobrecarga da operação "matriz[i]" permite operação "matriz[i][j]" (retorno mutável)
-    double * operator [](size_t i);
+    float * operator [](size_t i);
     // Sobrecarga da operação "matriz[i]" permite operação "matriz[i][j]" (retorno imutável)
-    const double * operator [](size_t i) const;
+    const float * operator [](size_t i) const;
     // Sobrecarga da operação "+matriz"
     Matrix2 operator +() const;
     // Sobrecarga da operação "-matriz"
@@ -73,13 +73,13 @@ public:
     // Sobrecarga da operação "matrizA * matrizB"
     Matrix2 operator *(const Matrix2 & rhs) const;
     // Sobrecarga da operação "matriz * escalar"
-    Matrix2 operator *(double rhs) const;
+    Matrix2 operator *(float rhs) const;
     // Sobrecarga da operação "escalar * matriz"
-    friend Matrix2 operator *(double lhs, const Matrix2 & rhs);
+    friend Matrix2 operator *(float lhs, const Matrix2 & rhs);
     // Sobrecarga da operação "matrizA / matrizB" realiza operação "matrizA.inverse(matrizB)"
     Matrix2 operator /(const Matrix2 & rhs) const;
     // Sobrecarga da operação "matriz / escalar"
-    Matrix2 operator /(double rhs) const;
+    Matrix2 operator /(float rhs) const;
     // Sobrecarga da operação "matrizA += matrizB"
     Matrix2 & operator +=(const Matrix2 & rhs);
     // Sobrecarga da operação "matrizA -= matrizB"
@@ -87,11 +87,11 @@ public:
     // Sobrecarga da operação "matrizA *= matrizB"
     Matrix2 & operator *=(const Matrix2 & rhs);
     // Sobrecarga da operação "matriz *= escalar"
-    Matrix2 & operator *=(double rhs);
+    Matrix2 & operator *=(float rhs);
     // Sobrecarga da operação "matrizA /= matrizB" realiza operação "matrizA = matrizA.inverse(matrizB)"
     Matrix2 & operator /=(const Matrix2 & rhs);
     // Sobrecarga da operação "matriz /= escalar"
-    Matrix2 & operator /=(double rhs);
+    Matrix2 & operator /=(float rhs);
     // Sobrecarga da operação "matrizA == matrizB"
     bool operator ==(const Matrix2 & rhs) const;
     // Sobrecarga da operação "matrizA != matrizB"
@@ -100,11 +100,11 @@ public:
     friend std::ostream & operator <<(std::ostream & lhs, const Matrix2 & rhs);
 
     // Retorna determinante
-    double determinant() const;
+    float determinant() const;
     // Retorna traço
-    double trace() const;
+    float trace() const;
     // Retorna menor da submatriz sem a linha "i" e coluna "j"
-    double minor(size_t i, size_t j) const;
+    float minor(size_t i, size_t j) const;
     // Transpõe matriz (matriz transposta)
     Matrix2 & transpose();
     // Retorna inversa
@@ -117,7 +117,7 @@ public:
 class Matrix3 {
 private:
     // Elementos da matriz
-    double m[3][3];
+    float m[3][3];
 
 public:
     // Construtor padrão (matriz zero)
@@ -126,16 +126,16 @@ public:
     Matrix3(const Matrix3 & matrix3);
     // Construtor para valores iniciais
     Matrix3(
-        double m00, double m01, double m02,
-        double m10, double m11, double m12,
-        double m20, double m21, double m22);
+        float m00, float m01, float m02,
+        float m10, float m11, float m12,
+        float m20, float m21, float m22);
     // Destrutor padrão
     ~Matrix3();
 
     // Sobrecarga da operação "matriz[i]" permite operação "matriz[i][j]" (retorno mutável)
-    double * operator [](size_t i);
+    float * operator [](size_t i);
     // Sobrecarga da operação "matriz[i]" permite operação "matriz[i][j]" (retorno imutável)
-    const double * operator [](size_t i) const;
+    const float * operator [](size_t i) const;
     // Sobrecarga da operação "+matriz"
     Matrix3 operator +() const;
     // Sobrecarga da operação "-matriz"
@@ -147,13 +147,13 @@ public:
     // Sobrecarga da operação "matrizA * matrizB"
     Matrix3 operator *(const Matrix3 & rhs) const;
     // Sobrecarga da operação "matriz * escalar"
-    Matrix3 operator *(double rhs) const;
+    Matrix3 operator *(float rhs) const;
     // Sobrecarga da operação "escalar * matriz"
-    friend Matrix3 operator *(double lhs, const Matrix3 & rhs);
+    friend Matrix3 operator *(float lhs, const Matrix3 & rhs);
     // Sobrecarga da operação "matrizA / matrizB" realiza operação "matrizA.inverse(matrizB)"
     Matrix3 operator /(const Matrix3 & rhs) const;
     // Sobrecarga da operação "matriz / escalar"
-    Matrix3 operator /(double rhs) const;
+    Matrix3 operator /(float rhs) const;
     // Sobrecarga da operação "matrizA += matrizB"
     Matrix3 & operator +=(const Matrix3 & rhs);
     // Sobrecarga da operação "matrizA -= matrizB"
@@ -161,11 +161,11 @@ public:
     // Sobrecarga da operação "matrizA *= matrizB"
     Matrix3 & operator *=(const Matrix3 & rhs);
     // Sobrecarga da operação "matriz *= escalar"
-    Matrix3 & operator *=(double rhs);
+    Matrix3 & operator *=(float rhs);
     // Sobrecarga da operação "matrizA /= matrizB" realiza operação "matrizA = matrizA.inverse(matrizB)"
     Matrix3 & operator /=(const Matrix3 & rhs);
     // Sobrecarga da operação "matriz /= escalar"
-    Matrix3 & operator /=(double rhs);
+    Matrix3 & operator /=(float rhs);
     // Sobrecarga da operação "matrizA == matrizB"
     bool operator ==(const Matrix3 & rhs) const;
     // Sobrecarga da operação "matrizA != matrizB"
@@ -178,22 +178,22 @@ public:
     // Configura como matriz de translação "T" a partir dos deslocamentos "(dx, dy)"
     Matrix3 & setTranslation(const Vector2 & translation);
     // Configura como matriz de rotação "R" anti-horária a partir de um ângulo de Euler "a" em radiano
-    Matrix3 & setRotation(double rotation);
+    Matrix3 & setRotation(float rotation);
     // Configura como matriz de escala "S" a partir dos fatores de escala "(sx, sy)"
     Matrix3 & setScaling(const Vector2 & scaling);
     // Configura como matriz de deformação "Sh" a partir dos componentes de deformação "(shx, shy)"
     Matrix3 & setShearing(const Vector2 & shearing);
     // Configura como matriz de transformação "M = S Sh R T"
     Matrix3 & setTransformation(
-        const Vector2 & translation, double rotation,
+        const Vector2 & translation, float rotation,
         const Vector2 & scaling, const Vector2 & shearing);
 
     // Retorna determinante
-    double determinant() const;
+    float determinant() const;
     // Retorna traço
-    double trace() const;
+    float trace() const;
     // Retorna menor da submatriz sem a linha "i" e coluna "j"
-    double minor(size_t i, size_t j) const;
+    float minor(size_t i, size_t j) const;
     // Transpõe matriz (matriz transposta)
     Matrix3 & transpose();
     // Retorna inversa
@@ -206,7 +206,7 @@ public:
 class Matrix4 {
 private:
     // Elementos da matriz
-    double m[4][4];
+    float m[4][4];
 
 public:
     // Construtor padrão (matriz zero)
@@ -215,17 +215,17 @@ public:
     Matrix4(const Matrix4 & matrix4);
     // Construtor para valores iniciais
     Matrix4(
-        double m00, double m01, double m02, double m03,
-        double m10, double m11, double m12, double m13,
-        double m20, double m21, double m22, double m23,
-        double m30, double m31, double m32, double m33);
+        float m00, float m01, float m02, float m03,
+        float m10, float m11, float m12, float m13,
+        float m20, float m21, float m22, float m23,
+        float m30, float m31, float m32, float m33);
     // Destrutor padrão
     ~Matrix4();
 
     // Sobrecarga da operação "matriz[i]" permite operação "matriz[i][j]" (retorno mutável)
-    double * operator [](size_t i);
+    float * operator [](size_t i);
     // Sobrecarga da operação "matriz[i]" permite operação "matriz[i][j]" (retorno imutável)
-    const double * operator [](size_t i) const;
+    const float * operator [](size_t i) const;
     // Sobrecarga da operação "+matriz"
     Matrix4 operator +() const;
     // Sobrecarga da operação "-matriz"
@@ -237,13 +237,13 @@ public:
     // Sobrecarga da operação "matrizA * matrizB"
     Matrix4 operator *(const Matrix4 & rhs) const;
     // Sobrecarga da operação "matriz * escalar"
-    Matrix4 operator *(double rhs) const;
+    Matrix4 operator *(float rhs) const;
     // Sobrecarga da operação "escalar * matriz"
-    friend Matrix4 operator *(double lhs, const Matrix4 & rhs);
+    friend Matrix4 operator *(float lhs, const Matrix4 & rhs);
     // Sobrecarga da operação "matrizA / matrizB" realiza operação "matrizA.inverse(matrizB)"
     Matrix4 operator /(const Matrix4 & rhs) const;
     // Sobrecarga da operação "matriz / escalar"
-    Matrix4 operator /(double rhs) const;
+    Matrix4 operator /(float rhs) const;
     // Sobrecarga da operação "matrizA += matrizB"
     Matrix4 & operator +=(const Matrix4 & rhs);
     // Sobrecarga da operação "matrizA -= matrizB"
@@ -251,11 +251,11 @@ public:
     // Sobrecarga da operação "matrizA *= matrizB"
     Matrix4 & operator *=(const Matrix4 & rhs);
     // Sobrecarga da operação "matriz *= escalar"
-    Matrix4 & operator *=(double rhs);
+    Matrix4 & operator *=(float rhs);
     // Sobrecarga da operação "matrizA /= matrizB" realiza operação "matrizA = matrizA.inverse(matrizB)"
     Matrix4 & operator /=(const Matrix4 & rhs);
     // Sobrecarga da operação "matriz /= escalar"
-    Matrix4 & operator /=(double rhs);
+    Matrix4 & operator /=(float rhs);
     // Sobrecarga da operação "matrizA == matrizB"
     bool operator ==(const Matrix4 & rhs) const;
     // Sobrecarga da operação "matrizA != matrizB"
@@ -279,11 +279,11 @@ public:
         const Vector3 & scaling, const Vector3 & shearing);
 
     // Retorna determinante
-    double determinant() const;
+    float determinant() const;
     // Retorna traço
-    double trace() const;
+    float trace() const;
     // Retorna menor da submatriz sem a linha "i" e coluna "j"
-    double minor(size_t i, size_t j) const;
+    float minor(size_t i, size_t j) const;
     // Transpõe matriz (matriz transposta)
     Matrix4 & transpose();
     // Retorna inversa

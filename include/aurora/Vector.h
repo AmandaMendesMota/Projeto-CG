@@ -45,21 +45,21 @@ class Matrix4;
 class Vector2 {
 public:
     // Componentes do vetor
-    double x, y;
+    float x, y;
 
     // Construtor padrão (vetor zero)
     Vector2();
     // Construtor cópia
     Vector2(const Vector2 & vector2);
     // Construtor para valores iniciais
-    Vector2(double x, double y);
+    Vector2(float x, float y);
     // Destrutor padrão
     ~Vector2();
 
     // Sobrecarga da operação "vetor[i]" (retorno mutável)
-    double & operator [](size_t i);
+    float & operator [](size_t i);
     // Sobrecarga da operação "vetor[i]" (retorno imutável)
-    const double & operator [](size_t i) const;
+    const float & operator [](size_t i) const;
     // Sobrecarga da operação "+vetor"
     Vector2 operator +() const;
     // Sobrecarga da operação "-vetor"
@@ -77,13 +77,13 @@ public:
     // Sobrecarga da operação "matriz3 * vetor"
     friend Vector2 operator *(const Matrix3 & lhs, const Vector2 & rhs);
     // Sobrecarga da operação "vetor * escalar"
-    Vector2 operator *(double rhs) const;
+    Vector2 operator *(float rhs) const;
     // Sobrecarga da operação "escalar * vetor"
-    friend Vector2 operator *(double lhs, const Vector2 & rhs);
+    friend Vector2 operator *(float lhs, const Vector2 & rhs);
     // Sobrecarga da operação "vetor / escalar"
-    Vector2 operator /(double rhs) const;
+    Vector2 operator /(float rhs) const;
     // Sobrecarga da operação "escalar / vetor"
-    friend Vector2 operator /(double lhs, const Vector2 & rhs);
+    friend Vector2 operator /(float lhs, const Vector2 & rhs);
     // Sobrecarga da operação "vetorA += vetorB"
     Vector2 & operator +=(const Vector2 & rhs);
     // Sobrecarga da operação "vetorA -= vetorB"
@@ -93,9 +93,9 @@ public:
     // Sobrecarga da operação "vetor *= matrix3"
     Vector2 & operator *=(const Matrix3 & rhs);
     // Sobrecarga da operação "vetor *= escalar"
-    Vector2 & operator *=(double rhs);
+    Vector2 & operator *=(float rhs);
     // Sobrecarga da operação "vetor /= escalar"
-    Vector2 & operator /=(double rhs);
+    Vector2 & operator /=(float rhs);
     // Sobrecarga da operação "vetorA == vetorB"
     bool operator ==(const Vector2 & rhs) const;
     // Sobrecarga da operação "vetorA != vetorB"
@@ -104,15 +104,15 @@ public:
     friend std::ostream & operator <<(std::ostream & lhs, const Vector2 & rhs);
 
     // Retorna produto escalar
-    double dot(const Vector2 & rhs) const;
+    float dot(const Vector2 & rhs) const;
     // Retorna produto vetorial
-    double cross(const Vector2 & rhs) const;
+    float cross(const Vector2 & rhs) const;
     // Normaliza vetor (vetor unitário)
     Vector2 & normalize();
     // Retorna comprimento do vetor ao quadrado
-    double length2() const;
+    float length2() const;
     // Retorna comprimento do vetor
-    double length() const;
+    float length() const;
     // Retorna valores mínimos (por componente)
     Vector2 min(const Vector2 & rhs) const;
     // Retorna valores máximos (por componente)
@@ -123,21 +123,21 @@ public:
 class Vector3 {
 public:
     // Componentes do vetor
-    double x, y, z;
+    float x, y, z;
 
     // Construtor padrão (vetor zero)
     Vector3();
     // Construtor cópia
     Vector3(const Vector3 & vector3);
     // Construtor para valores iniciais
-    Vector3(double x, double y, double z);
+    Vector3(float x, float y, float z);
     // Destrutor padrão
     ~Vector3();
 
     // Sobrecarga da operação "vetor[i]" (retorno mutável)
-    double & operator [](size_t i);
+    float & operator [](size_t i);
     // Sobrecarga da operação "vetor[i]" (retorno imutável)
-    const double & operator [](size_t i) const;
+    const float & operator [](size_t i) const;
     // Sobrecarga da operação "+vetor"
     Vector3 operator +() const;
     // Sobrecarga da operação "-vetor"
@@ -155,13 +155,13 @@ public:
     // Sobrecarga da operação "matriz4 * vetor"
     friend Vector3 operator *(const Matrix4 & lhs, const Vector3 & rhs);
     // Sobrecarga da operação "vetor * escalar"
-    Vector3 operator *(double rhs) const;
+    Vector3 operator *(float rhs) const;
     // Sobrecarga da operação "escalar * vetor"
-    friend Vector3 operator *(double lhs, const Vector3 & rhs);
+    friend Vector3 operator *(float lhs, const Vector3 & rhs);
     // Sobrecarga da operação "vetor / escalar"
-    Vector3 operator /(double rhs) const;
+    Vector3 operator /(float rhs) const;
     // Sobrecarga da operação "escalar / vetor"
-    friend Vector3 operator /(double lhs, const Vector3 & rhs);
+    friend Vector3 operator /(float lhs, const Vector3 & rhs);
     // Sobrecarga da operação "vetorA += vetorB"
     Vector3 & operator +=(const Vector3 & rhs);
     // Sobrecarga da operação "vetorA -= vetorB"
@@ -171,9 +171,9 @@ public:
     // Sobrecarga da operação "vetor *= matrix4"
     Vector3 & operator *=(const Matrix4 & rhs);
     // Sobrecarga da operação "vetor *= escalar"
-    Vector3 & operator *=(double rhs);
+    Vector3 & operator *=(float rhs);
     // Sobrecarga da operação "vetor /= escalar"
-    Vector3 & operator /=(double rhs);
+    Vector3 & operator /=(float rhs);
     // Sobrecarga da operação "vetorA == vetorB"
     bool operator ==(const Vector3 & rhs) const;
     // Sobrecarga da operação "vetorA != vetorB"
@@ -182,17 +182,17 @@ public:
     friend std::ostream & operator <<(std::ostream & lhs, const Vector3 & rhs);
 
     // Retorna produto escalar
-    double dot(const Vector3 & rhs) const;
+    float dot(const Vector3 & rhs) const;
     // Retorna produto triplo ou misto
-    double triple(const Vector3 & a, const Vector3 & b) const;
+    float triple(const Vector3 & a, const Vector3 & b) const;
     // Retorna produto vetorial
     Vector3 cross(const Vector3 & rhs) const;
     // Normaliza vetor (vetor unitário)
     Vector3 & normalize();
     // Retorna comprimento do vetor ao quadrado
-    double length2() const;
+    float length2() const;
     // Retorna comprimento do vetor
-    double length() const;
+    float length() const;
     // Retorna valores mínimos (por componente)
     Vector3 min(const Vector3 & rhs) const;
     // Retorna valores máximos (por componente)

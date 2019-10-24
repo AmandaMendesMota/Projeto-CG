@@ -77,19 +77,19 @@ public:
     // Sobrecarga da operação "imagemA - imagemB"
     Image3 operator -(const Image3 & rhs) const;
     // Sobrecarga da operação "imagem * escalar"
-    Image3 operator *(double rhs) const;
+    Image3 operator *(float rhs) const;
     // Sobrecarga da operação "escalar * imagem"
-    friend Image3 operator *(double lhs, const Image3 & rhs);
+    friend Image3 operator *(float lhs, const Image3 & rhs);
     // Sobrecarga da operação "imagem / escalar"
-    Image3 operator /(double rhs) const;
+    Image3 operator /(float rhs) const;
     // Sobrecarga da operação "imagemA += imagemB"
     Image3 & operator +=(const Image3 & rhs);
     // Sobrecarga da operação "imagemA -= imagemB"
     Image3 & operator -=(const Image3 & rhs);
     // Sobrecarga da operação "imagem *= escalar"
-    Image3 & operator *=(double rhs);
+    Image3 & operator *=(float rhs);
     // Sobrecarga da operação "imagem /= escalar"
-    Image3 & operator /=(double rhs);
+    Image3 & operator /=(float rhs);
     // Sobrecarga da operação "imagemA == imagemB"
     bool operator ==(const Image3 & rhs) const;
     // Sobrecarga da operação "imagemA != imagemB"
@@ -108,7 +108,7 @@ public:
     // Retorna número de pixels
     size_t getPixelCount() const;
     // Retorna relação entre resolução horizontal e vertical (proporção)
-    double getAspectRatio() const;
+    float getAspectRatio() const;
 
     // Cria imagem por cópia
     Image3 & create(const Image3 & image3);
@@ -118,9 +118,9 @@ public:
     Image3 & create(size_t width, size_t height, const std::vector<Color3> & pixels);
 
     // Aplica correção gamma à imagem
-    Image3 & applyGamma(double gamma);
+    Image3 & applyGamma(float gamma);
     // Aplica correção de exposição à imagem
-    Image3 & applyExposure(double exposure);
+    Image3 & applyExposure(float exposure);
     // Satura cor (linear)
     Image3 & saturate();
 };
@@ -161,19 +161,19 @@ public:
     // Sobrecarga da operação "imagemA - imagemB"
     Image4 operator -(const Image4 & rhs) const;
     // Sobrecarga da operação "imagem * escalar"
-    Image4 operator *(double rhs) const;
+    Image4 operator *(float rhs) const;
     // Sobrecarga da operação "escalar * imagem"
-    friend Image4 operator *(double lhs, const Image4 & rhs);
+    friend Image4 operator *(float lhs, const Image4 & rhs);
     // Sobrecarga da operação "imagem / escalar"
-    Image4 operator /(double rhs) const;
+    Image4 operator /(float rhs) const;
     // Sobrecarga da operação "imagemA += imagemB"
     Image4 & operator +=(const Image4 & rhs);
     // Sobrecarga da operação "imagemA -= imagemB"
     Image4 & operator -=(const Image4 & rhs);
     // Sobrecarga da operação "imagem *= escalar"
-    Image4 & operator *=(double rhs);
+    Image4 & operator *=(float rhs);
     // Sobrecarga da operação "imagem /= escalar"
-    Image4 & operator /=(double rhs);
+    Image4 & operator /=(float rhs);
     // Sobrecarga da operação "imagemA == imagemB"
     bool operator ==(const Image4 & rhs) const;
     // Sobrecarga da operação "imagemA != imagemB"
@@ -192,7 +192,7 @@ public:
     // Retorna número de pixels
     size_t getPixelCount() const;
     // Retorna relação entre resolução horizontal e vertical (proporção)
-    double getAspectRatio() const;
+    float getAspectRatio() const;
 
     // Cria imagem por cópia
     Image4 & create(const Image4 & image4);
@@ -202,9 +202,9 @@ public:
     Image4 & create(size_t width, size_t height, const std::vector<Color4> & pixels);
 
     // Aplica correção gamma à imagem
-    Image4 & applyGamma(double gamma);
+    Image4 & applyGamma(float gamma);
     // Aplica correção de exposição à imagem
-    Image4 & applyExposure(double exposure);
+    Image4 & applyExposure(float exposure);
     // Satura cor (linear)
     Image4 & saturate();
 };

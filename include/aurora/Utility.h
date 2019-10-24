@@ -37,15 +37,33 @@
 AURORA_NAMESPACE_BEGIN
 
 // Declaração de tipo incompleto no cabeçalho evita dependência cíclica de arquivos
+class Vector2;
 class Vector3;
 class Color3;
 class Color4;
 class Image3;
+class TriangleMesh;
 
 // Lê imagem RGB de um arquivo Netpbm PPM
 Image3 * readImage(const std::string & filename);
 // Escreve imagem RGB para um arquivo Netpbm PPM
 bool writeImage(const std::string & filename, const Image3 * image3);
+
+// Lê objeto geométrico triangulado de um arquivo Wavefront OBJ
+TriangleMesh * readMesh(const std::string & filename);
+// Escreve objeto geométrico triangulado para um arquivo Wavefront OBJ
+bool writeMesh(const std::string & filename, const TriangleMesh * triangleMesh);
+
+// Retorna coordenadas baricêntricas de ponto
+Vector3 barycentric(
+    const Vector3 & point,
+    const Vector3 & vertex0, const Vector3 & vertex1, const Vector3 & vertex2);
+// Retorna vetor normal de plano com peso de área definido por três pontos
+Vector3 calculateVectorArea(
+    const Vector3 & vertex0, const Vector3 & vertex1, const Vector3 & vertex2);
+// Retorna dois vetores tangentes ao plano definido por vetor normal
+void calculateTangents(
+        const Vector3 & normal, Vector3 & tangentU, Vector3 & tangentV);
 
 // Retorna tempo atual em milisegundos (geralmente desde 00:00 horas de 1 de janeiro de 1970 UTC)
 size_t time();
@@ -53,7 +71,17 @@ size_t time();
 // Inicializa gerador de amostras com semente aleatória
 void randomSeed(size_t seed);
 // Retorna amostra aleatória uniforme no intervalo real "[0, 1)"
-double uniformRandom();
+float uniformRandom();
+// Retorna amostra aletória uniforme (ponto 2D) dentro de círculo de raio unitário
+Vector2 uniformSampleDisk(const Vector2 & sample);
+// Retorna amostra aletória concêntrica (ponto 2D) dentro de círculo de raio unitário
+Vector2 concentricSampleDisk(const Vector2 & sample);
+// Retorna amostra aleatória uniforme (vetor de direção 3D) em hemisfério de raio unitário
+Vector3 uniformSampleHemisphere(const Vector2 & sample);
+// Retorna amostra aleatória uniforme (vetor de direção 3D) em hemisfério de raio unitário com peso de cosseno
+Vector3 uniformSampleCosineWeightedHemisphere(const Vector2 & sample);
+// Retorna amostra aleatória uniforme (ponto 3D) em superfície triangular
+Vector3 uniformSampleTriangle(const Vector2 & sample);
 
 // Retorna vetor real 1x3 como cor RGB linear
 Color3 toColor3(const Vector3 & vector3);

@@ -40,21 +40,21 @@ AURORA_NAMESPACE_BEGIN
 class Color3 {
 public:
     // Componentes de cor
-    double r, g, b;
+    float r, g, b;
 
     // Construtor padrão (cor preta)
     Color3();
     // Construtor cópia
     Color3(const Color3 & color3);
     // Construtor para valores iniciais
-    Color3(double r, double g, double b);
+    Color3(float r, float g, float b);
     // Destrutor padrão
     ~Color3();
 
     // Sobrecarga da operação "cor[i]" (retorno mutável)
-    double & operator [](size_t i);
+    float & operator [](size_t i);
     // Sobrecarga da operação "cor[i]" (retorno imutável)
-    const double & operator [](size_t i) const;
+    const float & operator [](size_t i) const;
     // Sobrecarga da operação "+cor"
     Color3 operator +() const;
     // Sobrecarga da operação "-cor"
@@ -66,13 +66,13 @@ public:
     // Sobrecarga da operação "corA * corB"
     Color3 operator *(const Color3 & rhs) const;
     // Sobrecarga da operação "cor * escalar"
-    Color3 operator *(double rhs) const;
+    Color3 operator *(float rhs) const;
     // Sobrecarga da operação "escalar * cor"
-    friend Color3 operator *(double lhs, const Color3 & rhs);
+    friend Color3 operator *(float lhs, const Color3 & rhs);
     // Sobrecarga da operação "corA / corB"
     Color3 operator /(const Color3 & rhs) const;
     // Sobrecarga da operação "cor / escalar"
-    Color3 operator /(double rhs) const;
+    Color3 operator /(float rhs) const;
     // Sobrecarga da operação "corA += corB"
     Color3 & operator +=(const Color3 & rhs);
     // Sobrecarga da operação "corA -= corB"
@@ -80,11 +80,11 @@ public:
     // Sobrecarga da operação "corA *= corB"
     Color3 & operator *=(const Color3 & rhs);
     // Sobrecarga da operação "cor *= escalar"
-    Color3 & operator *=(double rhs);
+    Color3 & operator *=(float rhs);
     // Sobrecarga da operação "corA /= corB"
     Color3 & operator /=(const Color3 & rhs);
     // Sobrecarga da operação "cor /= escalar"
-    Color3 & operator /=(double rhs);
+    Color3 & operator /=(float rhs);
     // Sobrecarga da operação "corA == corB"
     bool operator ==(const Color3 & rhs) const;
     // Sobrecarga da operação "corA != corB"
@@ -93,9 +93,9 @@ public:
     friend std::ostream & operator <<(std::ostream & lhs, const Color3 & rhs);
 
     // Aplica correção gamma à cor
-    Color3 & applyGamma(double gamma);
+    Color3 & applyGamma(float gamma);
     // Aplica correção de exposição à cor
-    Color3 & applyExposure(double exposure);
+    Color3 & applyExposure(float exposure);
     // Satura cor (linear)
     Color3 & saturate();
 };
@@ -104,21 +104,21 @@ public:
 class Color4 {
 public:
     // Componentes de cor
-    double r, g, b, a;
+    float r, g, b, a;
 
     // Construtor padrão (transparente)
     Color4();
     // Construtor cópia
     Color4(const Color4 & color4);
     // Construtor para valores iniciais
-    Color4(double r, double g, double b, double a);
+    Color4(float r, float g, float b, float a);
     // Destrutor padrão
     ~Color4();
 
     // Sobrecarga da operação "cor[i]" (retorno mutável)
-    double & operator [](size_t i);
+    float & operator [](size_t i);
     // Sobrecarga da operação "cor[i]" (retorno imutável)
-    const double & operator [](size_t i) const;
+    const float & operator [](size_t i) const;
     // Sobrecarga da operação "+cor"
     Color4 operator +() const;
     // Sobrecarga da operação "-cor"
@@ -130,13 +130,13 @@ public:
     // Sobrecarga da operação "corA * corB"
     Color4 operator *(const Color4 & rhs) const;
     // Sobrecarga da operação "cor * escalar"
-    Color4 operator *(double rhs) const;
+    Color4 operator *(float rhs) const;
     // Sobrecarga da operação "escalar * cor"
-    friend Color4 operator *(double lhs, const Color4 & rhs);
+    friend Color4 operator *(float lhs, const Color4 & rhs);
     // Sobrecarga da operação "corA / corB"
     Color4 operator /(const Color4 & rhs) const;
     // Sobrecarga da operação "cor / escalar"
-    Color4 operator /(double rhs) const;
+    Color4 operator /(float rhs) const;
     // Sobrecarga da operação "corA += corB"
     Color4 & operator +=(const Color4 & rhs);
     // Sobrecarga da operação "corA -= corB"
@@ -144,11 +144,11 @@ public:
     // Sobrecarga da operação "corA *= corB"
     Color4 & operator *=(const Color4 & rhs);
     // Sobrecarga da operação "cor *= escalar"
-    Color4 & operator *=(double rhs);
+    Color4 & operator *=(float rhs);
     // Sobrecarga da operação "corA /= corB"
     Color4 & operator /=(const Color4 & rhs);
     // Sobrecarga da operação "cor /= escalar"
-    Color4 & operator /=(double rhs);
+    Color4 & operator /=(float rhs);
     // Sobrecarga da operação "corA == corB"
     bool operator ==(const Color4 & rhs) const;
     // Sobrecarga da operação "corA != corB"
@@ -157,9 +157,9 @@ public:
     friend std::ostream & operator <<(std::ostream & lhs, const Color4 & rhs);
 
     // Aplica correção gamma à cor
-    Color4 & applyGamma(double gamma);
+    Color4 & applyGamma(float gamma);
     // Aplica correção de exposição à cor
-    Color4 & applyExposure(double exposure);
+    Color4 & applyExposure(float exposure);
     // Satura cor (linear)
     Color4 & saturate();
 };

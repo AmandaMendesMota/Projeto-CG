@@ -27,20 +27,21 @@
 
 #include <aurora/Color.h>
 #include <aurora/Math.h>
+#include <aurora/Utility.h>
 
 #include <cmath>
 
 AURORA_NAMESPACE_BEGIN
 
-Color3::Color3() : r(0), g(0), b(0) {}
+Color3::Color3() : r(0.0f), g(0.0f), b(0.0f) {}
 Color3::Color3(const Color3 & color3) : r(color3.r), g(color3.g), b(color3.b) {}
-Color3::Color3(double r, double g, double b) : r(r), g(g), b(b) {}
+Color3::Color3(float r, float g, float b) : r(r), g(g), b(b) {}
 Color3::~Color3() {}
 
-double & Color3::operator [](size_t i) {
+float & Color3::operator [](size_t i) {
     return (&r)[i];
 }
-const double & Color3::operator [](size_t i) const {
+const float & Color3::operator [](size_t i) const {
     return (&r)[i];
 }
 Color3 Color3::operator +() const {
@@ -58,16 +59,16 @@ Color3 Color3::operator -(const Color3 & rhs) const {
 Color3 Color3::operator *(const Color3 & rhs) const {
     return Color3(*this) *= rhs;
 }
-Color3 Color3::operator *(double rhs) const {
+Color3 Color3::operator *(float rhs) const {
     return Color3(*this) *= rhs;
 }
-Color3 operator *(double lhs, const Color3 & rhs) {
+Color3 operator *(float lhs, const Color3 & rhs) {
     return rhs * lhs;
 }
 Color3 Color3::operator /(const Color3 & rhs) const {
     return Color3(*this) /= rhs;
 }
-Color3 Color3::operator /(double rhs) const {
+Color3 Color3::operator /(float rhs) const {
     return Color3(*this) /= rhs;
 }
 Color3 & Color3::operator +=(const Color3 & rhs) {
@@ -91,7 +92,7 @@ Color3 & Color3::operator *=(const Color3 & rhs) {
 
     return *this;
 }
-Color3 & Color3::operator *=(double rhs) {
+Color3 & Color3::operator *=(float rhs) {
     r *= rhs;
     g *= rhs;
     b *= rhs;
@@ -105,7 +106,7 @@ Color3 & Color3::operator /=(const Color3 & rhs) {
 
     return *this;
 }
-Color3 & Color3::operator /=(double rhs) {
+Color3 & Color3::operator /=(float rhs) {
     r /= rhs;
     g /= rhs;
     b /= rhs;
@@ -122,8 +123,8 @@ std::ostream & operator <<(std::ostream & lhs, const Color3 & rhs) {
     return lhs << '[' << rhs.r << ' ' << rhs.g << ' ' << rhs.b << ']';
 }
 
-Color3 & Color3::applyGamma(double gamma) {
-    double t = 1.0 / gamma;
+Color3 & Color3::applyGamma(float gamma) {
+    float t = 1.0f / gamma;
 
     r = std::pow(r, t);
     g = std::pow(g, t);
@@ -131,8 +132,8 @@ Color3 & Color3::applyGamma(double gamma) {
 
     return *this;
 }
-Color3 & Color3::applyExposure(double exposure) {
-    double t = std::pow(2.0, exposure);
+Color3 & Color3::applyExposure(float exposure) {
+    float t = std::pow(2.0f, exposure);
 
     r *= t;
     g *= t;
@@ -141,22 +142,22 @@ Color3 & Color3::applyExposure(double exposure) {
     return *this;
 }
 Color3 & Color3::saturate() {
-    r = clamp(r, 0, 1.0);
-    g = clamp(g, 0, 1.0);
-    b = clamp(b, 0, 1.0);
+    r = aurora::saturate(r);
+    g = aurora::saturate(g);
+    b = aurora::saturate(b);
 
     return *this;
 }
 
-Color4::Color4() : r(0), g(0), b(0), a(0) {}
+Color4::Color4() : r(0.0f), g(0.0f), b(0.0f), a(0.0f) {}
 Color4::Color4(const Color4 & color4) : r(color4.r), g(color4.g), b(color4.b), a(color4.a) {}
-Color4::Color4(double r, double g, double b, double a) : r(r), g(g), b(b), a(a) {}
+Color4::Color4(float r, float g, float b, float a) : r(r), g(g), b(b), a(a) {}
 Color4::~Color4() {}
 
-double & Color4::operator [](size_t i) {
+float & Color4::operator [](size_t i) {
     return (&r)[i];
 }
-const double & Color4::operator [](size_t i) const {
+const float & Color4::operator [](size_t i) const {
     return (&r)[i];
 }
 Color4 Color4::operator +() const {
@@ -174,16 +175,16 @@ Color4 Color4::operator -(const Color4 & rhs) const {
 Color4 Color4::operator *(const Color4 & rhs) const {
     return Color4(*this) *= rhs;
 }
-Color4 Color4::operator *(double rhs) const {
+Color4 Color4::operator *(float rhs) const {
     return Color4(*this) *= rhs;
 }
-Color4 operator *(double lhs, const Color4 & rhs) {
+Color4 operator *(float lhs, const Color4 & rhs) {
     return rhs * lhs;
 }
 Color4 Color4::operator /(const Color4 & rhs) const {
     return Color4(*this) /= rhs;
 }
-Color4 Color4::operator /(double rhs) const {
+Color4 Color4::operator /(float rhs) const {
     return Color4(*this) /= rhs;
 }
 Color4 & Color4::operator +=(const Color4 & rhs) {
@@ -207,7 +208,7 @@ Color4 & Color4::operator *=(const Color4 & rhs) {
 
     return *this;
 }
-Color4 & Color4::operator *=(double rhs) {
+Color4 & Color4::operator *=(float rhs) {
     r *= rhs;
     g *= rhs;
     b *= rhs;
@@ -221,7 +222,7 @@ Color4 & Color4::operator /=(const Color4 & rhs) {
 
     return *this;
 }
-Color4 & Color4::operator /=(double rhs) {
+Color4 & Color4::operator /=(float rhs) {
     r /= rhs;
     g /= rhs;
     b /= rhs;
@@ -238,8 +239,8 @@ std::ostream & operator <<(std::ostream & lhs, const Color4 & rhs) {
     return lhs << '[' << rhs.r << ' ' << rhs.g << ' ' << rhs.b << ' ' << rhs.a << ']';
 }
 
-Color4 & Color4::applyGamma(double gamma) {
-    double t = 1.0 / gamma;
+Color4 & Color4::applyGamma(float gamma) {
+    float t = 1.0f / gamma;
 
     r = std::pow(r, t);
     g = std::pow(g, t);
@@ -247,8 +248,8 @@ Color4 & Color4::applyGamma(double gamma) {
 
     return *this;
 }
-Color4 & Color4::applyExposure(double exposure) {
-    double t = std::pow(2.0, exposure);
+Color4 & Color4::applyExposure(float exposure) {
+    float t = std::pow(2.0f, exposure);
 
     r *= t;
     g *= t;
@@ -257,9 +258,9 @@ Color4 & Color4::applyExposure(double exposure) {
     return *this;
 }
 Color4 & Color4::saturate() {
-    r = clamp(r, 0, 1.0);
-    g = clamp(g, 0, 1.0);
-    b = clamp(b, 0, 1.0);
+    r = aurora::saturate(r);
+    g = aurora::saturate(g);
+    b = aurora::saturate(b);
 
     return *this;
 }

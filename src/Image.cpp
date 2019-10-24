@@ -26,6 +26,7 @@
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include <aurora/Image.h>
+#include <aurora/Math.h>
 #include <aurora/Color.h>
 
 AURORA_NAMESPACE_BEGIN
@@ -71,13 +72,13 @@ Image3 Image3::operator +(const Image3 & rhs) const {
 Image3 Image3::operator -(const Image3 & rhs) const {
     return Image3(*this) -= rhs;
 }
-Image3 Image3::operator *(double rhs) const {
+Image3 Image3::operator *(float rhs) const {
     return Image3(*this) *= rhs;
 }
-Image3 operator *(double lhs, const Image3 & rhs) {
+Image3 operator *(float lhs, const Image3 & rhs) {
     return rhs * lhs;
 }
-Image3 Image3::operator /(double rhs) const {
+Image3 Image3::operator /(float rhs) const {
     return Image3(*this) /= rhs;
 }
 Image3 & Image3::operator +=(const Image3 & rhs) {
@@ -92,13 +93,13 @@ Image3 & Image3::operator -=(const Image3 & rhs) {
 
     return *this;
 }
-Image3 & Image3::operator *=(double rhs) {
+Image3 & Image3::operator *=(float rhs) {
     for (size_t i = 0; i < width * height; i++)
         pixels[i] *= rhs;
 
     return *this;
 }
-Image3 & Image3::operator /=(double rhs) {
+Image3 & Image3::operator /=(float rhs) {
     for (size_t i = 0; i < width * height; i++)
         pixels[i] /= rhs;
 
@@ -130,8 +131,8 @@ size_t Image3::getHeight() const {
 size_t Image3::getPixelCount() const {
     return width * height;
 }
-double Image3::getAspectRatio() const {
-    return width / (double)height;
+float Image3::getAspectRatio() const {
+    return width / (float)height;
 }
 
 Image3 & Image3::create(const Image3 & image3) {
@@ -156,13 +157,13 @@ Image3 & Image3::create(size_t width, size_t height, const std::vector<Color3> &
     return *this;
 }
 
-Image3 & Image3::applyGamma(double gamma) {
+Image3 & Image3::applyGamma(float gamma) {
     for (size_t i = 0; i < width * height; i++)
         pixels[i].applyGamma(gamma);
 
     return *this;
 }
-Image3 & Image3::applyExposure(double exposure) {
+Image3 & Image3::applyExposure(float exposure) {
     for (size_t i = 0; i < width * height; i++)
         pixels[i].applyExposure(exposure);
 
@@ -216,13 +217,13 @@ Image4 Image4::operator +(const Image4 & rhs) const {
 Image4 Image4::operator -(const Image4 & rhs) const {
     return Image4(*this) -= rhs;
 }
-Image4 Image4::operator *(double rhs) const {
+Image4 Image4::operator *(float rhs) const {
     return Image4(*this) *= rhs;
 }
-Image4 operator *(double lhs, const Image4 & rhs) {
+Image4 operator *(float lhs, const Image4 & rhs) {
     return rhs * lhs;
 }
-Image4 Image4::operator /(double rhs) const {
+Image4 Image4::operator /(float rhs) const {
     return Image4(*this) /= rhs;
 }
 Image4 & Image4::operator +=(const Image4 & rhs) {
@@ -237,13 +238,13 @@ Image4 & Image4::operator -=(const Image4 & rhs) {
 
     return *this;
 }
-Image4 & Image4::operator *=(double rhs) {
+Image4 & Image4::operator *=(float rhs) {
     for (size_t i = 0; i < width * height; i++)
         pixels[i] *= rhs;
 
     return *this;
 }
-Image4 & Image4::operator /=(double rhs) {
+Image4 & Image4::operator /=(float rhs) {
     for (size_t i = 0; i < width * height; i++)
         pixels[i] /= rhs;
 
@@ -275,8 +276,8 @@ size_t Image4::getHeight() const {
 size_t Image4::getPixelCount() const {
     return width * height;
 }
-double Image4::getAspectRatio() const {
-    return width / (double)height;
+float Image4::getAspectRatio() const {
+    return width / (float)height;
 }
 
 Image4 & Image4::create(const Image4 & image3) {
@@ -303,13 +304,13 @@ Image4 & Image4::create(size_t width, size_t height, const std::vector<Color4> &
     return *this;
 }
 
-Image4 & Image4::applyGamma(double gamma) {
+Image4 & Image4::applyGamma(float gamma) {
     for (size_t i = 0; i < width * height; i++)
         pixels[i].applyGamma(gamma);
 
     return *this;
 }
-Image4 & Image4::applyExposure(double exposure) {
+Image4 & Image4::applyExposure(float exposure) {
     for (size_t i = 0; i < width * height; i++)
         pixels[i].applyExposure(exposure);
 

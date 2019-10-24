@@ -27,9 +27,9 @@ CommandLine=
 Folders=include,include/aurora,src
 IncludeVersionInfo=0
 SupportXPThemes=0
-CompilerSet=1
-CompilerSettings=0000000000000000001000000
-UnitCount=14
+CompilerSet=0
+CompilerSettings=0000000000000000000000000
+UnitCount=16
 
 [VersionInfo]
 Major=1
@@ -50,7 +50,7 @@ ProductVersion=1.0.0.0
 AutoIncBuildNr=0
 SyncProduct=1
 
-[Unit14]
+[Unit1]
 FileName=src\main.cpp
 CompileCpp=1
 Folder=src
@@ -60,7 +60,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit1]
+[Unit2]
 FileName=include\aurora\Color.h
 CompileCpp=1
 Folder=include/aurora
@@ -70,7 +70,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit2]
+[Unit3]
 FileName=include\aurora\Global.h
 CompileCpp=1
 Folder=include/aurora
@@ -80,7 +80,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit3]
+[Unit4]
 FileName=include\aurora\Image.h
 CompileCpp=1
 Folder=include/aurora
@@ -90,7 +90,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit4]
+[Unit5]
 FileName=include\aurora\Math.h
 CompileCpp=1
 Folder=include/aurora
@@ -100,7 +100,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit5]
+[Unit6]
 FileName=include\aurora\Matrix.h
 CompileCpp=1
 Folder=include/aurora
@@ -110,18 +110,8 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit6]
-FileName=include\aurora\Utility.h
-CompileCpp=1
-Folder=include/aurora
-Compile=1
-Link=1
-Priority=1000
-OverrideBuildCmd=0
-BuildCmd=
-
 [Unit7]
-FileName=include\aurora\Vector.h
+FileName=include\aurora\TriangleMesh.h
 CompileCpp=1
 Folder=include/aurora
 Compile=1
@@ -131,6 +121,26 @@ OverrideBuildCmd=0
 BuildCmd=
 
 [Unit8]
+FileName=include\aurora\Utility.h
+CompileCpp=1
+Folder=include/aurora
+Compile=1
+Link=1
+Priority=1000
+OverrideBuildCmd=0
+BuildCmd=
+
+[Unit9]
+FileName=include\aurora\Vector.h
+CompileCpp=1
+Folder=include/aurora
+Compile=1
+Link=1
+Priority=1000
+OverrideBuildCmd=0
+BuildCmd=
+
+[Unit10]
 FileName=src\Color.cpp
 CompileCpp=1
 Folder=src
@@ -140,7 +150,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit9]
+[Unit11]
 FileName=src\Image.cpp
 CompileCpp=1
 Folder=src
@@ -150,7 +160,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit10]
+[Unit12]
 FileName=src\Math.cpp
 CompileCpp=1
 Folder=src
@@ -160,7 +170,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit11]
+[Unit13]
 FileName=src\Matrix.cpp
 CompileCpp=1
 Folder=src
@@ -170,7 +180,17 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit12]
+[Unit14]
+FileName=src\TriangleMesh.cpp
+CompileCpp=1
+Folder=src
+Compile=1
+Link=1
+Priority=1000
+OverrideBuildCmd=0
+BuildCmd=
+
+[Unit15]
 FileName=src\Utility.cpp
 CompileCpp=1
 Folder=src
@@ -180,7 +200,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit13]
+[Unit16]
 FileName=src\Vector.cpp
 CompileCpp=1
 Folder=src
