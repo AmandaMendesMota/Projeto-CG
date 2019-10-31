@@ -450,8 +450,151 @@ struct Camera {
     }       
 };
 
+struct RenderOptions {
+    int width;
+    int height;
+    int maximumDepth;
+    int cameraSamples;
+    int lightSamples;
+    int diffuseSamples;
+    float filterWidth;
+    float gamma;
+    float exposure;
+    
+    RenderOptions() {}
+    RenderOptions(int width, int height, int maximumDepth,
+            int cameraSamples, int lightSamples, int diffuseSamples,
+            float filterWidth, float gamma, float exposure) {
+        this->width = width;
+        this->height = height;
+        this->maximumDepth = maximumDepth;
+        this->cameraSamples = cameraSamples;
+        this->lightSamples = lightSamples;
+        this->diffuseSamples = diffuseSamples;
+        this->filterWidth = filterWidth;
+        this->gamma = gamma;
+        this->exposure = exposure;
+    }
+};
+
+struct Renderer {
+    RenderOptions * options;
+    Camera * camera;
+    Scene * scene;
+    
+    Renderer() {}
+    Renderer(RenderOptions * options, Camera * camera, Scene * scene) {
+        this->options = options;
+        this->camera = camera;
+        this->scene = scene;
+    }
+    
+    Color3 computeDirectIllumination(const BSDF * bsdf, ShaderGlobals & shaderGlobals) const {
+    	Color3 radiance;
+    	
+    	for(int i=0; i<scene->shapes.size(); i++){
+			Shape * lightShape = scene->shapes[i];
+			BSDF * lightBSDF = lightShape->bsdf;
+			
+			if(lightBSDF->type == BSDFType::Light){
+				
+				//shaderGlobals.lightDirection = lightShape->lightPosition() - shaderGlobals.point;
+				
+				float inverseSquareDistance = 1.0 / shaderGlobals.lightDirection.dot(shaderGlobals.lightDirection);
+				shaderGlobals.lightDirection *= sqrt(inverseSquareDistance);
+				
+				Ray shadowRay(
+					shaderGlobals.point + shaderGlobals.lightDirection * AURORA_THRESHOLD,
+					shaderGlobals.lightDirection);
+				
+				Intersection intersection;
+				
+				if(scene->intersects(shadowRay, intersection) && i == intersection.index){
+					
+					ShaderGlobals lightShaderGlobals;
+					lightShape->calculateShaderGlobals(shadowRay, intersection, lightShaderGlobals);
+					
+					shaderGlobals.lightPoint = lightShaderGlobals.point;
+					shaderGlobals.lightNormal = lightShaderGlobals.normal;
+					
+					float cosine = fmax(0, shaderGlobals.normal.dot(shaderGlobals.lightDirection));
+					float lightCosine = fmax(0, shaderGlobals.lightNormal.dot(-shaderGlobals.lightDirection));
+					
+					Color3 bsdfColor = bsdf->color * AURORA_INV_PI;
+					Color3 lightIntensity = lightBSDF->color * lightCosine * inverseSquareDistance * lightShape->surfaceArea();
+					
+					radiance += bsdfColor * lightIntensity * cosine;
+				
+				}
+			
+			}	
+		
+		}
+        return radiance;
+    }
+    Color3 computeIndirectIllumination(const BSDF * bsdf, ShaderGlobals & shaderGlobals) const {
+    	
+        return Color3();
+    }
+    
+    Color3 trace(const Ray & ray, int depth) const {
+        Intersection intersection;
+        
+        if (scene->intersects(ray, intersection)) {
+            const Shape * shape = scene->shapes[intersection.index];
+            const BSDF * bsdf = shape->bsdf;
+            
+            if (bsdf->type == BSDFType::Light)
+                return bsdf->color;
+            else if (bsdf->type == BSDFType::Diffuse) {
+                ShaderGlobals shaderGlobals;
+                shape->calculateShaderGlobals(ray, intersection, shaderGlobals);
+                
+                return computeDirectIllumination(bsdf, shaderGlobals);
+            }
+        }
+        
+        return Color3();
+    }
+    Color3 render(Image3 * image) const {
+        const Vector2 half(0.5, 0.5);
+        
+        for (int i = 0; i < options->width; i++) {
+            for (int j = 0; j < options->height; j++) {
+                std::vector<Vector2> samples;
+                //stratifiedSample(options->cameraSamples, samples);
+                
+                Color3 color;
+                float weight = 0;
+                float w;
+                
+                for (int k = 0; k < options->cameraSamples; k++) {
+                    Vector2 sample = (samples[k] - half) * options->filterWidth;
+                    Ray ray = camera->generateRay(i, j, sample);
+                    
+                    // w = gaussian2D(sample, options->filterWidth);
+                    
+                    //color += trace(ray, 0) * w;
+                    //weight += w;
+                }
+                
+                color /= weight;
+                
+                color.applyExposure(options->exposure);
+                color.applyGamma(options->gamma);
+                
+                //image->setPixel(i, j, color);
+            }
+        }
+    }
+};
+
+
 int main(int argc, char **argv)
 {
+	
+	RenderOptions options(500, 500, 1, 16, 1, 1, 2.0, 2.2, 0);
+	
 	Vertex v0;
 	Vertex v1;
 	Vertex v2;
@@ -509,6 +652,9 @@ int main(int argc, char **argv)
         std::cout << "Light direction: " << shaderGlobals.lightDirection << std::endl;
         std::cout << "Light point: " << shaderGlobals.lightPoint << std::endl;
         std::cout << "Light normal: " << shaderGlobals.lightNormal << std::endl;
+        
+        
+        
 	}
 	else cout<<"Sem intersecao!"<<endl;
 	
@@ -518,3 +664,4 @@ int main(int argc, char **argv)
     
     return 0;
 }
+
