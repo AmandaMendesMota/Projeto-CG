@@ -4,6 +4,7 @@
 #include <aurora/Color.h>
 #include <aurora/Matrix.h>
 #include <aurora/TriangleMesh.h>
+#include <aurora/Image.h>
 
 #include <cmath>
 #include <algorithm>
@@ -13,6 +14,40 @@
 
 using namespace aurora;
 using namespace std;
+
+
+float uniformRandom1D() {
+    return uniformRandom();
+}
+
+
+Vector2 uniformRandom2D() {
+    return Vector2(uniformRandom1D(), uniformRandom1D());
+}
+
+void stratifiedSamples(size_t count, std::vector<Vector2> & samples) {
+    samples.reserve(count);
+    
+    size_t size = std::sqrt(count);
+    float inverseSize = 1.0f / size;
+    
+    for (size_t i = 0; i < count; i++) {
+        Vector2 offset(i / size, i % size);
+        Vector2 point = (offset + uniformRandom2D()) * inverseSize;
+        
+        samples.push_back(point);
+    }
+}
+
+float gaussian1D(float sample, float width) {
+    float radius = width * 0.5f;
+    return std::fmax(0.0f, std::exp(-sample * sample) - std::exp(-radius * radius));
+}
+
+float gaussian2D(const Vector2 & sample, float width) {
+    return gaussian1D(sample.x, width) * gaussian1D(sample.y, width);
+}
+
 
 struct Vertex{
 	Vector3 position;
@@ -27,6 +62,7 @@ struct Vertex{
 	}
 	
 };
+
 
 struct Intersection {
     bool hit;
@@ -123,17 +159,21 @@ struct Shape {
         const Ray & ray, const Intersection & intersection,
         ShaderGlobals & shaderGlobals) const = 0;
     virtual float surfaceArea() const = 0;
+    virtual Vector3 uniformSample(const Vector2 & sample) const = 0;
 };
 
 struct Triangle : Shape{
 	Vertex vertices[3];
+	float area;
 		
-	Triangle() {}
-	Triangle(const Vertex & v0, const Vertex & v1, const Vertex & v2, BSDF * bsdf) {
-	this->bsdf = bsdf;
-	this->vertices[0] = v0;
-	this->vertices[1] = v1;
-	this->vertices[2] = v2;
+	Triangle() : Shape() {}
+	Triangle(const Vertex & v0, const Vertex & v1, const Vertex & v2, BSDF * bsdf) : Shape(bsdf) {
+		this->bsdf = bsdf;
+		this->vertices[0] = v0;
+		this->vertices[1] = v1;
+		this->vertices[2] = v2;
+		
+		updateSurfaceArea();
 	}
 	
 	virtual bool intersects(
@@ -179,7 +219,9 @@ struct Triangle : Shape{
 
     virtual void calculateShaderGlobals(
         const Ray & ray, const Intersection & intersection,
-        ShaderGlobals & shaderGlobals) const {const Vector3 & p0 = vertices[0].position;
+        ShaderGlobals & shaderGlobals) const {
+		
+		const Vector3 & p0 = vertices[0].position;
         const Vector3 & p1 = vertices[1].position;
         const Vector3 & p2 = vertices[2].position;
         
@@ -191,9 +233,11 @@ struct Triangle : Shape{
         const Vector2 & t1 = vertices[1].uv;
         const Vector2 & t2 = vertices[2].uv;
         
+        shaderGlobals.point = ray.point(intersection.distance);
+        
         Vector3 b = barycentric(shaderGlobals.point, p0, p1, p2);
         
-        shaderGlobals.point = ray.point(intersection.distance);
+        
         
         shaderGlobals.normal = (n0 * b.x + n1 * b.y + n2 * b.z).normalize();
         shaderGlobals.textureCoordinate = t0 * b.x + t1 * b.y + t2 * b.z;
@@ -218,16 +262,43 @@ struct Triangle : Shape{
         
         return area;
     }
+    
+    
+    Triangle & updateSurfaceArea() {
+        const Vector3 & v0 = vertices[0].position;
+        const Vector3 & v1 = vertices[1].position;
+        const Vector3 & v2 = vertices[2].position;
+        
+        Vector3 normal = calculateVectorArea(v0, v1, v2);
+        area = normal.length() * 0.5f;
+        
+        return *this;
+    }
+    
+    virtual Vector3 uniformSample(const Vector2 & sample) const {
+        const Vector3 & v0 = vertices[0].position;
+        const Vector3 & v1 = vertices[1].position;
+        const Vector3 & v2 = vertices[2].position;
+        
+        Vector3 b = uniformSampleTriangle(sample);
+        
+        return b.x * v0 + b.y * v1 + b.z * v2;
+    }
 };
 
 
 struct Scene {
     std::vector<Shape*> shapes;
+    std::vector<Shape *> lightGroup;
+
     
-    Scene();
-    Scene(const std::vector<Shape *> & shapes) {
+    Scene() {}
+    Scene(
+            const std::vector<Shape *> & shapes,
+            const std::vector<Shape *> & lightGroup) {
         this->shapes = shapes;
-    } //CTRL
+        this->lightGroup = lightGroup;
+    }
     
     Scene & fromMesh(const TriangleMesh & triangleMesh, BSDF * bsdf = nullptr) {
         size_t triangleCount = triangleMesh.getTriangleCount();
@@ -373,8 +444,8 @@ struct Sphere : Shape {
         return 4.0 * AURORA_PI * radius * radius;
     }
     
-    virtual Vector3 lightPosition() const{
-		return position;
+	virtual Vector3 uniformSample(const Vector2 & sample) const {
+		return Vector3();
 	}
 };
   
@@ -490,15 +561,17 @@ struct Renderer {
     }
     
     Color3 computeDirectIllumination(const BSDF * bsdf, ShaderGlobals & shaderGlobals) const {
+    	//return Color3(shaderGlobals.uv.x, shaderGlobals.uv.y, 1 - shaderGlobals.uv.y - shaderGlobals.uv.x);
+    	
     	Color3 radiance;
     	
-    	for(int i=0; i<scene->shapes.size(); i++){
+    	for(int i=0; i < scene->shapes.size(); i++){
 			Shape * lightShape = scene->shapes[i];
 			BSDF * lightBSDF = lightShape->bsdf;
 			
 			if(lightBSDF->type == BSDFType::Light){
 				
-				//shaderGlobals.lightDirection = lightShape->lightPosition() - shaderGlobals.point;
+				shaderGlobals.lightDirection = lightShape->uniformSample(uniformRandom2D()) - shaderGlobals.point;
 				
 				float inverseSquareDistance = 1.0 / shaderGlobals.lightDirection.dot(shaderGlobals.lightDirection);
 				shaderGlobals.lightDirection *= sqrt(inverseSquareDistance);
@@ -562,7 +635,7 @@ struct Renderer {
         for (int i = 0; i < options->width; i++) {
             for (int j = 0; j < options->height; j++) {
                 std::vector<Vector2> samples;
-                //stratifiedSample(options->cameraSamples, samples);
+                stratifiedSamples(options->cameraSamples, samples);
                 
                 Color3 color;
                 float weight = 0;
@@ -572,10 +645,10 @@ struct Renderer {
                     Vector2 sample = (samples[k] - half) * options->filterWidth;
                     Ray ray = camera->generateRay(i, j, sample);
                     
-                    // w = gaussian2D(sample, options->filterWidth);
+                    w = gaussian2D(sample, options->filterWidth);
                     
-                    //color += trace(ray, 0) * w;
-                    //weight += w;
+                    color += trace(ray, 0) * w;
+                    weight += w;
                 }
                 
                 color /= weight;
@@ -583,7 +656,7 @@ struct Renderer {
                 color.applyExposure(options->exposure);
                 color.applyGamma(options->gamma);
                 
-                //image->setPixel(i, j, color);
+                image->setPixel(i, j, color);
             }
         }
     }
@@ -612,51 +685,94 @@ int main(int argc, char **argv)
 	v2.normal = Vector3(0.0, 0.0, 1.0);
 	v2.uv = Vector2(0.0, 1.0);
 		
-	Film film(800, 600);
+	Film film(500, 500);
     
     Camera camera(radians(20.0), film, Matrix4());
     camera.lookAt(Vector3(0, 0, 35.0), Vector3(0, 0, 0), Vector3(0, 1.0, 0));
 	   
-	Ray r0 = camera.generateRay(400, 300, Vector2());
+	//Ray r0 = camera.generateRay(400, 300, Vector2());
 	
-	cout <<"Raio: " << r0.direction << endl;
+	//cout <<"Raio: " << r0.direction << endl;
 	
 	
 	Color3 red(1.0, 0.0, 0.0);
 	BSDF * diffuse = new BSDF (BSDFType::Diffuse, red);
 	Triangle* t = new Triangle (v0, v1, v2, diffuse);
 	
+	Color3 white = Color3(1.0, 1.0, 1.0) * 20.0;
+	BSDF light(BSDFType::Light, white);
+	
+	BSDF whiteDiffuse(BSDFType::Diffuse, Color3(1.0f, 1.0f, 1.0f));
+    BSDF redDiffuse(BSDFType::Diffuse, Color3(0.65f, 0.065f, 0.05f));
+    BSDF greenDiffuse(BSDFType::Diffuse, Color3(0.14f, 0.45f, 0.2f));
+	
 	vector<Shape*> shapes = {t};
 	
-	Scene scene (shapes);
+	Scene scene;
 	
-	Intersection intersection;
+	TriangleMesh * mesh = readMesh("../res/cornell_box.obj");
+    
+    if (mesh)
+        scene.fromMesh(*mesh, &whiteDiffuse);
+    
+    delete mesh;
 	
-	scene.intersects(r0, intersection);
+	scene.shapes[10]->bsdf = &light;
+    scene.shapes[11]->bsdf = &light;
+    
+    scene.lightGroup.push_back(scene.shapes[10]);
+    scene.lightGroup.push_back(scene.shapes[11]);
+    
+    scene.shapes[8]->bsdf = &redDiffuse;
+    scene.shapes[9]->bsdf = &redDiffuse;
+    
+    scene.shapes[6]->bsdf = &greenDiffuse;
+    scene.shapes[7]->bsdf = &greenDiffuse;
 	
-	cout << "scene : " << scene.shapes.size() << endl ;
 	
-	if(intersection.hit){
-		Shape * shape = scene.shapes[intersection.index];
-        
-        ShaderGlobals shaderGlobals;
-        shape->calculateShaderGlobals(r0, intersection, shaderGlobals);
-        
-        std::cout << "Point: " << shaderGlobals.point << std::endl;
-        std::cout << "Normal: " << shaderGlobals.normal << std::endl;
-        std::cout << "Texture coordinate: " << shaderGlobals.textureCoordinate << std::endl;
-        std::cout << "UV: " << shaderGlobals.uv << std::endl;
-        std::cout << "Tangent U: " << shaderGlobals.tangentU << std::endl;
-        std::cout << "Tangent V: " << shaderGlobals.tangentV << std::endl;
-        std::cout << "View direction: " << shaderGlobals.viewDirection << std::endl;
-        std::cout << "Light direction: " << shaderGlobals.lightDirection << std::endl;
-        std::cout << "Light point: " << shaderGlobals.lightPoint << std::endl;
-        std::cout << "Light normal: " << shaderGlobals.lightNormal << std::endl;
-        
-        
-        
-	}
-	else cout<<"Sem intersecao!"<<endl;
+	Renderer renderer(&options, &camera, &scene);
+    
+    Image3 image(options.width, options.height);
+    
+   
+    renderer.render(&image);
+    
+    
+    if (writeImage("../output/image.ppm", &image))
+        std::cout << "Image saved." << std::endl;
+    else
+        std::cout << "Failed to save image." << std::endl;
+    
+	
+	
+	
+//	Intersection intersection;
+//	
+//	scene.intersects(r0, intersection);
+//	
+//	cout << "scene : " << scene.shapes.size() << endl ;
+//	
+//	if(intersection.hit){
+//		Shape * shape = scene.shapes[intersection.index];
+//        
+//        ShaderGlobals shaderGlobals;
+//        shape->calculateShaderGlobals(r0, intersection, shaderGlobals);
+//        
+//        std::cout << "Point: " << shaderGlobals.point << std::endl;
+//        std::cout << "Normal: " << shaderGlobals.normal << std::endl;
+//        std::cout << "Texture coordinate: " << shaderGlobals.textureCoordinate << std::endl;
+//        std::cout << "UV: " << shaderGlobals.uv << std::endl;
+//        std::cout << "Tangent U: " << shaderGlobals.tangentU << std::endl;
+//        std::cout << "Tangent V: " << shaderGlobals.tangentV << std::endl;
+//        std::cout << "View direction: " << shaderGlobals.viewDirection << std::endl;
+//        std::cout << "Light direction: " << shaderGlobals.lightDirection << std::endl;
+//        std::cout << "Light point: " << shaderGlobals.lightPoint << std::endl;
+//        std::cout << "Light normal: " << shaderGlobals.lightNormal << std::endl;
+//        
+//        
+//        
+//	}
+//	else cout<<"Sem intersecao!"<<endl;
 	
 	delete t;
 	delete diffuse;

@@ -265,12 +265,18 @@ Vector3 barycentric(
     Vector3 v0 = vertex1 - vertex0;
     Vector3 v1 = vertex2 - vertex0;
     Vector3 v2 = point - vertex0;
-
-    float inverseD = 1.0f / (v0.x * v1.y - v0.y * v1.x);
-
-    float v = (v2.x * v1.y - v2.y * v1.x) * inverseD;
-    float w = (v0.x * v2.y - v0.y * v2.x) * inverseD;
-
+    
+    float d00 = v0.dot(v0);
+    float d01 = v0.dot(v1);
+    float d11 = v1.dot(v1);
+    float d20 = v2.dot(v0);
+    float d21 = v2.dot(v1);
+    
+    float inverseD = d00 * d11 - d01 * d01;
+    
+    float v = (d11 * d20 - d01 * d21) / inverseD;
+    float w = (d00 * d21 - d01 * d20) / inverseD;
+    
     return Vector3(1.0f - v - w, v, w);
 }
 Vector3 calculateVectorArea(
@@ -296,6 +302,9 @@ size_t time() {
 
 void randomSeed(size_t seed) {
     std::srand(seed);
+}
+int uniformRandom(int minimum, int maximum) {
+    return minimum + std::rand() % (maximum - minimum + 1);
 }
 float uniformRandom() {
     return std::rand() / (RAND_MAX + 1.0f);
@@ -337,6 +346,13 @@ Vector3 uniformSampleCosineWeightedHemisphere(const Vector2 & sample) {
     float phi = 2.0f * AURORA_PI * sample.y;
 
     return Vector3(s * std::cos(phi), s * std::sin(phi), std::sqrt(1.0f - sample.x));
+}
+Vector3 uniformSampleSphere(const Vector2 & sample) {
+    float z = 1.0f - 2.0f * sample.x;
+    float s = std::sqrt(1.0f - z * z);
+    float phi = 2.0f * AURORA_PI * sample.y;
+    
+    return Vector3(s * std::cos(phi), s * std::sin(phi), z);
 }
 Vector3 uniformSampleTriangle(const Vector2 & sample) {
     float s = std::sqrt(sample.x);

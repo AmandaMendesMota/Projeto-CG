@@ -70,6 +70,8 @@ size_t time();
 
 // Inicializa gerador de amostras com semente aleatória
 void randomSeed(size_t seed);
+// Retorna amostra aleatória uniforme no intervalo determinado "[minimum, maximum]"
+int uniformRandom(int minimum, int maximum);
 // Retorna amostra aleatória uniforme no intervalo real "[0, 1)"
 float uniformRandom();
 // Retorna amostra aletória uniforme (ponto 2D) dentro de círculo de raio unitário
@@ -80,6 +82,8 @@ Vector2 concentricSampleDisk(const Vector2 & sample);
 Vector3 uniformSampleHemisphere(const Vector2 & sample);
 // Retorna amostra aleatória uniforme (vetor de direção 3D) em hemisfério de raio unitário com peso de cosseno
 Vector3 uniformSampleCosineWeightedHemisphere(const Vector2 & sample);
+// Retorna amostra aleatória uniforme (ponto 3D) em esfera de raio unitário
+Vector3 uniformSampleSphere(const Vector2 & sample);
 // Retorna amostra aleatória uniforme (ponto 3D) em superfície triangular
 Vector3 uniformSampleTriangle(const Vector2 & sample);
 
